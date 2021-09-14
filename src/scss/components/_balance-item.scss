@@ -1,0 +1,23 @@
+@import '../variables';
+
+.balance-item {
+  width: 415px;
+  height: 92px;
+  margin: 0;
+  padding: 0;
+  border-bottom: 2px solid $balance-block-border;
+
+  &__title {
+    padding: 16px 0 10px 16px;
+    font-size: 18px;
+    line-height: 21px;
+    color: $balance-color-txt;
+  }
+
+  &__balance {
+    padding: 0 0 17px 16px;
+    font-size: 24px;
+    line-height: 28px;
+    color: $balance-bg;
+  }
+}
