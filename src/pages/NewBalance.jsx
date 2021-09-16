@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { newBalanceItem } from '../redux/actions/newBalanceItem';
 import { Header } from '../components';
@@ -7,6 +7,9 @@ import { Header } from '../components';
 const NewBalance = () => {
   const dispatch = useDispatch();
   const [balanceData, setBalanceData] = React.useState(null);
+  const balanceItems = useSelector(({ balanceReducer }) => balanceReducer.balanceItem);
+
+  // console.log(balanceItems);
 
   const getBalanceData = (e) => {
     const data = {

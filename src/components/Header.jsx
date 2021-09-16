@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router';
+import PropTypes from 'prop-types';
 
 import Button from './Button';
 
@@ -21,6 +22,13 @@ const Header = ({ backBtnText, saveBtnText, prevPage, saveHandle }) => {
       <Button btnText={saveBtnText} onClick={onSaveClick} />
     </div>
   );
+};
+
+Header.propTypes = {
+  backBtnText: PropTypes.string,
+  saveBtnText: PropTypes.string,
+  prevPage: PropTypes.string,
+  saveHandle: PropTypes.func,
 };
 
 export default Header;

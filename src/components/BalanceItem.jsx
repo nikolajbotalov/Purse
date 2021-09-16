@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const BalanceItem = ({ name, balance }) => {
   return (
@@ -7,6 +8,11 @@ const BalanceItem = ({ name, balance }) => {
       <p className="balance-item__balance">{balance}</p>
     </div>
   );
+};
+
+BalanceItem.propTypes = {
+  name: PropTypes.string,
+  balance: PropTypes.string,
 };
 
 export default BalanceItem;

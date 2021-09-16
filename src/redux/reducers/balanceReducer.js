@@ -7,16 +7,12 @@ const initialState = {
 
 const balanceReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_BALANCE_ITEM: {
-      // В текущей реализации есть проблемы, что объект
-      // в массиве перезаписывает, необходимо поправить
-      // Так же, написать логику получения общего баланса
-
+    case ADD_BALANCE_ITEM:
       return {
         ...state,
         balanceItem: [...state.balanceItem, action.payload],
+        totalBalance: +action.payload.balance + state.totalBalance,
       };
-    }
     default:
       return state;
   }
