@@ -1,13 +1,14 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import { Home, NewBalance } from './pages';
+import { BalancePage, HomePage, NewBalancePage } from './pages';
 
 const App = () => {
   return (
     <div className="wrapper">
-      <Route path="/" component={Home} exact />
-      <Route path="/newbalance" component={NewBalance} exact />
+      <Route path="/" component={HomePage} exact />
+      <Route path="/newbalance" component={NewBalancePage} exact />
+      <Route path="/balancepage" component={BalancePage} />
     </div>
   );
 };

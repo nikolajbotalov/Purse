@@ -1,15 +1,4 @@
 @import '../variables';
 
 .balance-block {
-  width: 415px;
-  height: 73px;
-  background-color: $balance-bg;
-  text-align: center;
-
-  span {
-    height: 73px;
-    font-size: 48px;
-    line-height: 73px;
-    color: $balance-color-txt;
-  }
 }

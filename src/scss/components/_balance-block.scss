@@ -1,0 +1,37 @@
+@import '../variables';
+
+.balance-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $balance-bg;
+  text-align: center;
+
+  &.home {
+    justify-content: space-evenly;
+    text-align: center;
+  }
+
+  span {
+    height: 73px;
+    font-size: 48px;
+    line-height: 73px;
+    color: $balance-color-txt;
+  }
+
+  button {
+    border: none;
+
+    &.remove {
+      background-color: #ff8f8f;
+    }
+
+    &.add {
+      background-color: #21ff21;
+    }
+  }
+
+  img {
+    padding: 18px;
+  }
+}

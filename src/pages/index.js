@@ -1,2 +1,3 @@
-export { default as Home } from './Home';
-export { default as NewBalance } from './NewBalance';
+export { default as BalancePage } from './BalancePage';
+export { default as HomePage } from './HomePage';
+export { default as NewBalancePage } from './NewBalancePage';
