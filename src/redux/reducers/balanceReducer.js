@@ -1,7 +1,18 @@
 const ADD_BALANCE_ITEM = 'ADD_BALANCE_ITEM';
 
 const initialState = {
-  balanceItem: [],
+  balanceItem: [
+    {
+      balanceName: 'ВТБ',
+      balance: 2000,
+    },
+  ],
+  costs: [
+    {
+      paidItemName: 'Мобильная связь',
+      price: 150,
+    },
+  ],
   totalBalance: 0,
 };
 

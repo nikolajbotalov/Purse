@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import { BalancePage, HomePage, NewBalancePage } from './pages';
+import { BalancePage, HomePage, NewBalancePage, PaidPage } from './pages';
 
 const App = () => {
   return (
@@ -9,6 +9,7 @@ const App = () => {
       <Route path="/" component={HomePage} exact />
       <Route path="/newbalance" component={NewBalancePage} exact />
       <Route path="/balancepage" component={BalancePage} />
+      <Route path="/paidpage" component={PaidPage} />
     </div>
   );
 };

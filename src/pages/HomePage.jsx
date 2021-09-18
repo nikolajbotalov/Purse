@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { HomeHeader, BalanceBlock, BalanceItem } from '../components';
 
@@ -13,9 +13,9 @@ const Home = () => {
       <BalanceBlock classname="home" balance={totalBalance} />
       {balanceItem.map((balance, index) => {
         return (
-          <Link to="/balancepage" key={index}>
+          <NavLink to={'/balancepage/' + balance.balanceName} key={index}>
             <BalanceItem name={balance.balanceName} balance={balance.balance} />
-          </Link>
+          </NavLink>
         );
       })}
     </div>

@@ -12,7 +12,6 @@ const BalanceItem = ({ name, balance }) => {
 
 BalanceItem.propTypes = {
   name: PropTypes.string,
-  balance: PropTypes.string,
 };
 
 export default BalanceItem;

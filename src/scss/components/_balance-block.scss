@@ -12,6 +12,14 @@
     text-align: center;
   }
 
+  &.cost {
+    background-color: $balance-bg-cost;
+  }
+
+  &.income {
+    background-color: $balance-bg-income;
+  }
+
   span {
     height: 73px;
     font-size: 48px;
