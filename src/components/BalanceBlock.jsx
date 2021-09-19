@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import Button from './Button';
 
@@ -9,9 +10,17 @@ import addIcon from '../assets/img/add.svg';
 const BalanceBlock = ({ hideBtns, classname, balance }) => {
   return (
     <div className={!classname ? 'balance-block' : `balance-block ${classname}`}>
-      {!hideBtns ? null : <Button icon={removeIcon} classname="remove" />}
+      {!hideBtns ? null : (
+        <Link to="/paidpage/cost">
+          <Button icon={removeIcon} classname="remove" />
+        </Link>
+      )}
       <span>{balance}</span>
-      {!hideBtns ? null : <Button icon={addIcon} classname="add" />}
+      {!hideBtns ? null : (
+        <Link to="/paidpage/income">
+          <Button icon={addIcon} classname="add" />
+        </Link>
+      )}
     </div>
   );
 };

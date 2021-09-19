@@ -77,3 +77,29 @@ a {
     color: $balance-block-border;
   }
 }
+
+.description {
+  // p {
+  //   padding: 21px 16px 0px;
+  //   font-size: 18px;
+  //   line-height: 21px;
+  //   color: $balance-color-txt;
+  // }
+
+  input {
+    width: 399px;
+    padding: 16px 0 16px 16px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid $balance-block-border;
+    font-size: 18px;
+    line-height: 21px;
+    color: $balance-color-txt;
+
+    &::placeholder {
+      font-size: 18px;
+      line-height: 21px;
+      color: $balance-color-txt;
+    }
+  }
+}

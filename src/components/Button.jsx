@@ -15,7 +15,6 @@ const Button = ({ icon, btnText, onClick, classname }) => {
 Button.propTypes = {
   icon: PropTypes.string,
   btnText: PropTypes.string,
-  onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
