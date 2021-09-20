@@ -13,7 +13,12 @@ const Home = () => {
       <BalanceBlock classname="home" balance={totalBalance} />
       {balanceItem.map((balance, index) => {
         return (
-          <Link to={'/balancepage/' + balance.balanceName} key={index}>
+          <Link
+            to={{
+              pathname: '/balancepage/',
+              state: { balanceName: balance.balanceName },
+            }}
+            key={index}>
             <BalanceItem name={balance.balanceName} balance={balance.balance} />
           </Link>
         );

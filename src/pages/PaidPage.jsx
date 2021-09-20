@@ -1,14 +1,13 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { newCostItem } from '../redux/actions/newBalanceItem';
 import { BalanceBlock, Header } from '../components';
 
 const PaidPage = (props) => {
   const dispatch = useDispatch();
-  const balance = useSelector(({ balanceReducer }) => balanceReducer);
-  console.log(balance);
   const paidName = props.location.pathname.substring(10);
+  const balance = props.location.state.balance;
   const [paidData, setPaidData] = React.useState(null);
 
   const getChangeData = (e) => {
@@ -28,12 +27,12 @@ const PaidPage = (props) => {
   return (
     <div>
       <Header backBtnText="отмена" saveBtnText="сохранить" prevPage="/" saveHandle={savePaidItem} />
-      <BalanceBlock classname={paidName} />
+      <BalanceBlock classname={paidName} balance={balance} />
       <div className="description">
         <input
           type="text"
           name="paidItemName"
-          placeholder="Введите описания расхода"
+          placeholder={`Введите описание ${paidName === 'cost' ? 'расхода' : 'дохода'}`}
           onChange={getChangeData}
         />
         <input type="text" name="price" placeholder="Введите сумму" onChange={getChangeData} />

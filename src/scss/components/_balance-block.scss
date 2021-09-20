@@ -13,10 +13,12 @@
   }
 
   &.cost {
+    display: block;
     background-color: $balance-bg-cost;
   }
 
   &.income {
+    display: block;
     background-color: $balance-bg-income;
   }
 

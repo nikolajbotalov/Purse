@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 
 import { Header, BalanceBlock, BalanceItem } from '../components';
 
-const BalancePage = (props) => {
+const BalancePage = ({ location }) => {
   const balanceData = useSelector(({ balanceReducer }) => balanceReducer.balanceItem);
   const balanceDetails = useSelector(({ balanceReducer }) => balanceReducer.costs);
-  const balanceName = props.location.pathname.substring(13);
+  const balanceName = location.state.balanceName;
 
   const getBalance = (balance) => {
     const bName = balance.find((bn) => (bn.balanceName === balanceName ? bn.balance : null));
@@ -15,7 +15,7 @@ const BalancePage = (props) => {
 
   return (
     <div>
-      <Header backBtnText="назад" prevPage="/" />
+      <Header backBtnText="назад" prevPage="/" balanceName={balanceName} />
       <BalanceBlock hideBtns={true} balance={getBalance(balanceData)} />
       {balanceDetails.map((item, index) => {
         return <BalanceItem key={index} name={item.paidItemName} balance={item.price} />;

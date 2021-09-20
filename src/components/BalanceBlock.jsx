@@ -11,13 +11,21 @@ const BalanceBlock = ({ hideBtns, classname, balance }) => {
   return (
     <div className={!classname ? 'balance-block' : `balance-block ${classname}`}>
       {!hideBtns ? null : (
-        <Link to="/paidpage/cost">
+        <Link
+          to={{
+            pathname: '/paidpage/cost',
+            state: { balance },
+          }}>
           <Button icon={removeIcon} classname="remove" />
         </Link>
       )}
       <span>{balance}</span>
       {!hideBtns ? null : (
-        <Link to="/paidpage/income">
+        <Link
+          to={{
+            pathname: '/paidpage/income',
+            state: { balance },
+          }}>
           <Button icon={addIcon} classname="add" />
         </Link>
       )}
