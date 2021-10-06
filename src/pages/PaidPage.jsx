@@ -1,13 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { newCostItem } from '../redux/actions/newBalanceItem';
-import { BalanceBlock, Header } from '../components';
+import { newCostItem, newIncomeItem } from '../redux/actions/newBalanceItem';
+import { BalanceBlock, Header, BalanceInput } from '../components';
 
-const PaidPage = (props) => {
+const PaidPage = ({ location }) => {
   const dispatch = useDispatch();
-  const paidName = props.location.pathname.substring(10);
-  const balance = props.location.state.balance;
+  const { balance, balanceName, link } = location.state;
   const [paidData, setPaidData] = React.useState(null);
 
   const getChangeData = (e) => {
@@ -21,21 +20,22 @@ const PaidPage = (props) => {
   };
 
   const savePaidItem = () => {
-    dispatch(newCostItem(paidData));
+    link === 'cost'
+      ? dispatch(newCostItem({ paidData, balanceName }))
+      : dispatch(newIncomeItem({ paidData, balanceName }));
   };
 
   return (
     <div>
       <Header backBtnText="отмена" saveBtnText="сохранить" prevPage="/" saveHandle={savePaidItem} />
-      <BalanceBlock classname={paidName} balance={balance} />
+      <BalanceBlock classname={link} balance={balance} />
       <div className="description">
-        <input
-          type="text"
+        <BalanceInput
           name="paidItemName"
-          placeholder={`Введите описание ${paidName === 'cost' ? 'расхода' : 'дохода'}`}
+          placeholder={`Введите описание ${link === 'cost' ? 'расхода' : 'дохода'}`}
           onChange={getChangeData}
         />
-        <input type="text" name="price" placeholder="Введите сумму" onChange={getChangeData} />
+        <BalanceInput name="price" placeholder="Введите сумму" onChange={getChangeData} />
       </div>
     </div>
   );

@@ -7,14 +7,14 @@ import Button from './Button';
 import removeIcon from '../assets/img/remove.svg';
 import addIcon from '../assets/img/add.svg';
 
-const BalanceBlock = ({ hideBtns, classname, balance }) => {
+const BalanceBlock = ({ hideBtns, classname, balance, balanceName }) => {
   return (
     <div className={!classname ? 'balance-block' : `balance-block ${classname}`}>
       {!hideBtns ? null : (
         <Link
           to={{
             pathname: '/paidpage/cost',
-            state: { balance },
+            state: { balance, balanceName, link: 'cost' },
           }}>
           <Button icon={removeIcon} classname="remove" />
         </Link>
@@ -24,7 +24,7 @@ const BalanceBlock = ({ hideBtns, classname, balance }) => {
         <Link
           to={{
             pathname: '/paidpage/income',
-            state: { balance },
+            state: { balance, balanceName, link: 'income' },
           }}>
           <Button icon={addIcon} classname="add" />
         </Link>

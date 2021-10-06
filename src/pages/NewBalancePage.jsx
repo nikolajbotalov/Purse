@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { newBalanceItem } from '../redux/actions/newBalanceItem';
-import { Header } from '../components';
+import { Header, BalanceInput, Description } from '../components';
 
 const NewBalance = () => {
   const dispatch = useDispatch();
@@ -30,22 +30,27 @@ const NewBalance = () => {
         prevPage="/"
         saveHandle={saveBalanceItem}
       />
-      <input
-        className="balance-input"
+
+      <BalanceInput
+        classname="balance-input"
         placeholder="Имя списка"
         name="balanceName"
         onChange={getBalanceData}
       />
-      <span className="balance-input__description">
-        Укажите название списка для счета (Наличные, карта)
-      </span>
-      <input
-        className="balance-input"
-        placeholder="Имя списка"
+      <Description
+        classname="balance-input__description"
+        text="Укажите название списка для счета (Наличные, карта)"
+      />
+      <BalanceInput
+        classname="balance-input"
+        placeholder="Сумма"
         name="balance"
         onChange={getBalanceData}
       />
-      <span className="balance-input__description">Укажите начальный баланс счета (Бюджет)</span>
+      <Description
+        classname="balance-input__description"
+        text="Укажите начальный баланс счета (Бюджет)"
+      />
     </div>
   );
 };

@@ -16,7 +16,7 @@ const BalancePage = ({ location }) => {
   return (
     <div>
       <Header backBtnText="назад" prevPage="/" balanceName={balanceName} />
-      <BalanceBlock hideBtns={true} balance={getBalance(balanceData)} />
+      <BalanceBlock hideBtns={true} balance={getBalance(balanceData)} balanceName={balanceName} />
       {balanceDetails.map((item, index) => {
         return <BalanceItem key={index} name={item.paidItemName} balance={item.price} />;
       })}
