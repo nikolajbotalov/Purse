@@ -21,8 +21,8 @@ const PaidPage = ({ location }) => {
 
   const savePaidItem = () => {
     link === 'cost'
-      ? dispatch(newCostItem({ paidData, balanceName }))
-      : dispatch(newIncomeItem({ paidData, balanceName }));
+      ? dispatch(newCostItem({ paidData, balanceName, link }))
+      : dispatch(newIncomeItem({ paidData, balanceName, link }));
   };
 
   return (

@@ -2,18 +2,40 @@ const CREATE_BALANCE_ITEM = 'CREATE_BALANCE_ITEM';
 const ADD_COST_ITEM = 'ADD_COST_ITEM';
 const ADD_INCOME_ITEM = 'ADD_INCOME_ITEM';
 
+// TODO: переименовать переменную costs, не отображает суть
+
 const initialState = {
   balanceItem: [],
-  costs: [],
   totalBalance: 0,
 };
 
-const changeBalanceItem = (data, arr, sign) => {
-  const balance = arr.find((fn) => (fn.balanceName === data.balanceName ? fn.balance : null));
-  if (sign === '-=') {
-    balance.balance -= data.paidData.price;
+const changeBalanceItem = ({ paidData, balanceName, link }, arr, sign) => {
+  // console.log(paidData);
+  const balance = arr.find((fn) => (fn.balanceName === balanceName ? fn.balance : null));
+
+  if (!balance.costs) {
+    balance.costs = [
+      {
+        paidItemName: paidData.paidItemName,
+        price: paidData.price,
+        paidType: link,
+      },
+    ];
   } else {
-    balance.balance = +data.paidData.price + balance.balance;
+    balance.costs = [
+      ...balance.costs,
+      {
+        paidItemName: paidData.paidItemName,
+        price: paidData.price,
+        paidType: link,
+      },
+    ];
+  }
+
+  if (sign === '-=') {
+    balance.balance -= paidData.price;
+  } else {
+    balance.balance = +paidData.price + Number.parseFloat(balance.balance);
   }
 
   return balance.balance;
