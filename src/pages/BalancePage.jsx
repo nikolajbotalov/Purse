@@ -14,8 +14,6 @@ const BalancePage = ({ location }) => {
 
   const { costs, balance } = getBalanceInfo(balanceData);
 
-  console.log(costs);
-
   return (
     <div>
       <Header backBtnText="назад" prevPage="/" balanceName={balanceName} />
