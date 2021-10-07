@@ -16,7 +16,7 @@ const Home = () => {
           <Link
             to={{
               pathname: '/balancepage/',
-              state: { balanceName: balance.balanceName },
+              state: { id: index, balanceName: balance.balanceName },
             }}
             key={index}>
             <BalanceItem name={balance.balanceName} balance={balance.balance} />

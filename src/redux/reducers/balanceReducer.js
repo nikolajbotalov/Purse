@@ -51,18 +51,6 @@ const editBalanceName = ({ newName, balanceName }, arr) => {
   return newBalanceName.balanceName;
 };
 
-// Метод для удаления списка счета
-// TODO: метод не работает, возможно методом пользоваться не стоит
-const removeBalanceItem = (balanceName, arr) => {
-  const removeItem = arr.find((item) => {
-    if (item.balanceName === balanceName) {
-      return;
-    }
-  });
-
-  console.log(removeItem);
-};
-
 const balanceReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_BALANCE_ITEM:
@@ -77,10 +65,14 @@ const balanceReducer = (state = initialState, action) => {
         editBalanceName: editBalanceName(action.payload, [...state.balanceItem]),
       };
     case REMOVE_BALANCE_ITEM:
-      // not working
+      const newItems = {
+        ...state.balanceItem,
+      };
+
+      delete newItems[action.payload];
       return {
         ...state,
-        removeBalanceItem: removeBalanceItem(action.payload, [...state.balanceItem]),
+        balanceItem: newItems,
       };
     case ADD_COST_ITEM: {
       return {

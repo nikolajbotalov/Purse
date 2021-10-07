@@ -4,9 +4,11 @@ import { useDispatch } from 'react-redux';
 import { editBalanceItem, deleteBalanceItem } from '../redux/actions/newBalanceItem';
 import { BalanceInput, Description, Header } from '../components';
 
+// TODO: Написать редирект для кнопки удаления, стилизовать кнопку, превратив в компонент
+
 const EditBalancePage = ({ location }) => {
   const dispatch = useDispatch();
-  const { balanceName } = location.state;
+  const { id, balanceName } = location.state;
   const [newName, setNewName] = React.useState(null);
 
   const changeNameHandler = (e) => {
@@ -18,7 +20,7 @@ const EditBalancePage = ({ location }) => {
   };
 
   const removeBalanceItem = () => {
-    dispatch(deleteBalanceItem(balanceName));
+    dispatch(deleteBalanceItem(id));
   };
 
   return (

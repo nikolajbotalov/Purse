@@ -5,7 +5,7 @@ import { Header, BalanceBlock, BalanceItem } from '../components';
 
 const BalancePage = ({ location }) => {
   const balanceData = useSelector(({ balanceReducer }) => balanceReducer.balanceItem);
-  const balanceName = location.state.balanceName;
+  const { id, balanceName } = location.state;
 
   const getBalanceInfo = (balance) => {
     const balanceInfo = balance.find((bn) => (bn.balanceName === balanceName ? bn.balance : null));
@@ -16,7 +16,7 @@ const BalancePage = ({ location }) => {
 
   return (
     <div>
-      <Header backBtnText="назад" prevPage="/" balanceName={balanceName} />
+      <Header id={id} backBtnText="назад" prevPage="/" balanceName={balanceName} />
       <BalanceBlock hideBtns={true} balance={balance} balanceName={balanceName} />
       {costs &&
         costs.map((item, index) => {
