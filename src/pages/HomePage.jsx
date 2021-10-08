@@ -7,6 +7,8 @@ import { HomeHeader, BalanceBlock, BalanceItem } from '../components';
 const Home = () => {
   const { balanceItem, totalBalance } = useSelector(({ balanceReducer }) => balanceReducer);
 
+  console.log(balanceItem);
+
   return (
     <div>
       <HomeHeader />

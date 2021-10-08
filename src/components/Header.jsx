@@ -5,7 +5,16 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 import { Link } from 'react-router-dom';
 
-const Header = ({ id, backBtnText, saveBtnText, prevPage, saveHandle, balanceName, icon }) => {
+const Header = ({
+  id,
+  backBtnText,
+  saveBtnText,
+  prevPage,
+  saveHandle,
+  balanceName,
+  icon,
+  balance = 'null',
+}) => {
   const history = useHistory();
 
   const onCancelClick = () => {
@@ -24,7 +33,7 @@ const Header = ({ id, backBtnText, saveBtnText, prevPage, saveHandle, balanceNam
         <Link
           to={{
             pathname: '/editbalancepage',
-            state: { id: id, balanceName: balanceName },
+            state: { id: id, balanceName: balanceName, balance: balance },
           }}>
           <span>{balanceName}</span>
         </Link>

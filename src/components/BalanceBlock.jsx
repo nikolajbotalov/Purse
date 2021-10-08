@@ -16,7 +16,7 @@ const BalanceBlock = ({ hideBtns, classname, balance, balanceName }) => {
             pathname: '/paidpage/cost',
             state: { balance, balanceName, link: 'cost' },
           }}>
-          <Button icon={removeIcon} classname="remove" />
+          <Button icon={removeIcon} classname="cost" />
         </Link>
       )}
       <span>{balance}</span>

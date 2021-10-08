@@ -65,14 +65,13 @@ const balanceReducer = (state = initialState, action) => {
         editBalanceName: editBalanceName(action.payload, [...state.balanceItem]),
       };
     case REMOVE_BALANCE_ITEM:
-      const newItems = {
-        ...state.balanceItem,
-      };
+      const newItems = [...state.balanceItem];
+      newItems.splice(action.payload.id);
 
-      delete newItems[action.payload];
       return {
         ...state,
         balanceItem: newItems,
+        totalBalance: state.totalBalance - action.payload.balance,
       };
     case ADD_COST_ITEM: {
       return {
