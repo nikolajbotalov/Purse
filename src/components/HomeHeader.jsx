@@ -9,7 +9,7 @@ import settingsIcon from '../assets/img/settings.svg';
 const HomeHeader = () => {
   return (
     <div className="home-header">
-      <Link to="/newbalance">
+      <Link to="/newsourcebalancepage">
         <Button icon={addListIcon} />
       </Link>
 

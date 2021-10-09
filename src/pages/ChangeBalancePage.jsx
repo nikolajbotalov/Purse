@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { newCostItem, newIncomeItem } from '../redux/actions/newBalanceItem';
 import { BalanceBlock, Header, BalanceInput } from '../components';
 
-const PaidPage = ({ location }) => {
+const ChangeBalancePage = ({ location }) => {
   const dispatch = useDispatch();
   const { balance, balanceName, link } = location.state;
   const [paidData, setPaidData] = React.useState(null);
@@ -41,4 +41,4 @@ const PaidPage = ({ location }) => {
   );
 };
 
-export default PaidPage;
+export default ChangeBalancePage;

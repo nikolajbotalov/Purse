@@ -92,12 +92,9 @@ input {
   padding: 21px;
   width: 373px;
   background: $balance-block-border;
-
-  &::placeholder {
-    font-size: 18px;
-    line-height: 21px;
-    font-family: 'Roboto';
-  }
+  font-family: 'Roboto';
+  font-size: 18px;
+  line-height: 21px;
 
   &:nth-of-type(1) {
     margin-top: 34px;
@@ -117,6 +114,9 @@ input {
     padding: 16px 0 16px 16px;
     background-color: transparent;
     border-bottom: 2px solid $balance-block-border;
+    font-family: 'Roboto';
+    font-size: 18px;
+    line-height: 21px;
   }
 }
 

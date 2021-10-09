@@ -32,7 +32,7 @@ const Header = ({
       {balanceName && (
         <Link
           to={{
-            pathname: '/editbalancepage',
+            pathname: '/editsourcebalancepage',
             state: { id: id, balanceName: balanceName, balance: balance },
           }}>
           <span>{balanceName}</span>

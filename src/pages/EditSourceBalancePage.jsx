@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 // TODO: Написать редирект для кнопки удаления, стилизовать кнопку, превратив в компонент
 
-const EditBalancePage = ({ location }) => {
+const EditSourceBalancePage = ({ location }) => {
   const dispatch = useDispatch();
   const { id, balanceName, balance } = location.state;
   const [newSourceBalanceName, setNewSourceBalanceName] = React.useState(null);
@@ -54,4 +54,4 @@ const EditBalancePage = ({ location }) => {
   );
 };
 
-export default EditBalancePage;
+export default EditSourceBalancePage;

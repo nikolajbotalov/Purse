@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { createSoureBalance } from '../redux/actions/newBalanceItem';
 import { Header, BalanceInput, Description } from '../components';
 
-const NewBalance = () => {
+const NewSourceBalancePage = () => {
   const dispatch = useDispatch();
   const [balanceData, setBalanceData] = React.useState(null);
 
@@ -55,4 +55,4 @@ const NewBalance = () => {
   );
 };
 
-export default NewBalance;
+export default NewSourceBalancePage;
