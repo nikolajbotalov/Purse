@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { editBalanceItem, deleteBalanceItem } from '../redux/actions/newBalanceItem';
+import { editSourceBalance, removeSourceBalance } from '../redux/actions/newBalanceItem';
 import { BalanceInput, Button, Description, Header } from '../components';
 import { Link } from 'react-router-dom';
 
@@ -10,18 +10,18 @@ import { Link } from 'react-router-dom';
 const EditBalancePage = ({ location }) => {
   const dispatch = useDispatch();
   const { id, balanceName, balance } = location.state;
-  const [newName, setNewName] = React.useState(null);
+  const [newSourceBalanceName, setNewSourceBalanceName] = React.useState(null);
 
-  const changeNameHandler = (e) => {
-    setNewName(e.target.value);
+  const getNewSourceBalanceName = (e) => {
+    setNewSourceBalanceName(e.target.value);
   };
 
-  const editBalanceName = () => {
-    dispatch(editBalanceItem({ newName, balanceName }));
+  const editSourceBalanceHandler = () => {
+    dispatch(editSourceBalance({ newSourceBalanceName, balanceName }));
   };
 
-  const removeBalanceItem = () => {
-    dispatch(deleteBalanceItem({ id, balance }));
+  const removeSourceBalanceHandler = () => {
+    dispatch(removeSourceBalance({ id, balance }));
   };
 
   return (
@@ -30,12 +30,12 @@ const EditBalancePage = ({ location }) => {
         backBtnText="назад"
         saveBtnText="сохранить"
         prevPage="/"
-        saveHandle={editBalanceName}
+        saveHandle={editSourceBalanceHandler}
       />
       <BalanceInput
         placeholder={balanceName}
         classname="balance-input"
-        onChange={changeNameHandler}
+        onChange={getNewSourceBalanceName}
       />
       <Description
         text="Измените название списка для счета"
@@ -43,7 +43,11 @@ const EditBalancePage = ({ location }) => {
       />
       <div className="list-controller">
         <Link to="/">
-          <Button btnText="удалить список" onClick={removeBalanceItem} classname="remove" />
+          <Button
+            btnText="удалить список"
+            onClick={removeSourceBalanceHandler}
+            classname="remove"
+          />
         </Link>
       </div>
     </div>

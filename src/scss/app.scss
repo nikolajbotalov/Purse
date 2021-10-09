@@ -93,6 +93,12 @@ input {
   width: 373px;
   background: $balance-block-border;
 
+  &::placeholder {
+    font-size: 18px;
+    line-height: 21px;
+    font-family: 'Roboto';
+  }
+
   &:nth-of-type(1) {
     margin-top: 34px;
   }

@@ -5,15 +5,13 @@ import { Link } from 'react-router-dom';
 import { HomeHeader, BalanceBlock, BalanceItem } from '../components';
 
 const Home = () => {
-  const { balanceItem, totalBalance } = useSelector(({ balanceReducer }) => balanceReducer);
-
-  console.log(balanceItem);
+  const { sourceBalance, totalBalance } = useSelector(({ balanceReducer }) => balanceReducer);
 
   return (
     <div>
       <HomeHeader />
       <BalanceBlock classname="home" balance={totalBalance} />
-      {balanceItem.map((balance, index) => {
+      {sourceBalance.map((balance, index) => {
         return (
           <Link
             to={{

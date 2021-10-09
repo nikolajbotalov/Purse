@@ -1,13 +1,13 @@
-const CREATE_BALANCE_ITEM = 'CREATE_BALANCE_ITEM';
-const EDIT_BALANCE_ITEM = 'EDIT_BALANCE_ITEM';
-const REMOVE_BALANCE_ITEM = 'REMOVE_BALANCE_ITEM';
+const CREATE_SOURCE_BALANCE = 'CREATE_SOURCE_BALANCE';
+const EDIT_SOURCE_BALANCE = 'EDIT_SOURCE_BALANCE';
+const REMOVE_SOURCE_BALANCE = 'REMOVE_SOURCE_BALANCE';
 const ADD_COST_ITEM = 'ADD_COST_ITEM';
 const ADD_INCOME_ITEM = 'ADD_INCOME_ITEM';
 
 // TODO: переименовать переменную costs, не отображает суть
 
 const initialState = {
-  balanceItem: [],
+  sourceBalance: [],
   totalBalance: 0,
 };
 
@@ -44,46 +44,46 @@ const changeBalanceItem = ({ paidData, balanceName, link }, arr, sign) => {
 };
 
 // Метод для изменения названия списка счета
-const editBalanceName = ({ newName, balanceName }, arr) => {
-  const newBalanceName = arr.find((item) =>
-    item.balanceName === balanceName ? (item.balanceName = newName) : item.balanceName,
+const editBalanceName = ({ newSourceBalanceName, balanceName }, arr) => {
+  const renamedSourceBalanceName = arr.find((bn) =>
+    bn.balanceName === balanceName ? (bn.balanceName = newSourceBalanceName) : bn.balanceName,
   );
-  return newBalanceName.balanceName;
+  return renamedSourceBalanceName.balanceName;
 };
 
 const balanceReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_BALANCE_ITEM:
+    case CREATE_SOURCE_BALANCE:
       return {
         ...state,
-        balanceItem: [...state.balanceItem, action.payload],
+        sourceBalance: [...state.sourceBalance, action.payload],
         totalBalance: +action.payload.balance + state.totalBalance,
       };
-    case EDIT_BALANCE_ITEM:
+    case EDIT_SOURCE_BALANCE:
       return {
         ...state,
-        editBalanceName: editBalanceName(action.payload, [...state.balanceItem]),
+        editBalanceName: editBalanceName(action.payload, [...state.sourceBalance]),
       };
-    case REMOVE_BALANCE_ITEM:
-      const newItems = [...state.balanceItem];
-      newItems.splice(action.payload.id);
+    case REMOVE_SOURCE_BALANCE:
+      const newSourceBalance = [...state.sourceBalance];
+      newSourceBalance.splice(action.payload.id);
 
       return {
         ...state,
-        balanceItem: newItems,
+        sourceBalance: newSourceBalance,
         totalBalance: state.totalBalance - action.payload.balance,
       };
     case ADD_COST_ITEM: {
       return {
         ...state,
-        changeBalanceItem: changeBalanceItem(action.payload, [...state.balanceItem], '-='),
+        changeBalanceItem: changeBalanceItem(action.payload, [...state.sourceBalance], '-='),
         totalBalance: state.totalBalance - action.payload.paidData.price,
       };
     }
     case ADD_INCOME_ITEM: {
       return {
         ...state,
-        changeBalanceItem: changeBalanceItem(action.payload, [...state.balanceItem], '+='),
+        changeBalanceItem: changeBalanceItem(action.payload, [...state.sourceBalance], '+='),
         totalBalance: +action.payload.paidData.price + state.totalBalance,
       };
     }

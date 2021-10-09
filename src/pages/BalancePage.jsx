@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Header, BalanceBlock, BalanceItem } from '../components';
 
 const BalancePage = ({ location }) => {
-  const balanceData = useSelector(({ balanceReducer }) => balanceReducer.balanceItem);
+  const balanceData = useSelector(({ balanceReducer }) => balanceReducer.sourceBalance);
   const { id, balanceName } = location.state;
 
   const getBalanceInfo = (balance) => {

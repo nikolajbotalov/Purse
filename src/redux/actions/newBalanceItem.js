@@ -1,16 +1,16 @@
-export const newBalanceItem = (balanceItem) => ({
-  type: 'CREATE_BALANCE_ITEM',
-  payload: balanceItem,
+export const createSoureBalance = (sourceBalance) => ({
+  type: 'CREATE_SOURCE_BALANCE',
+  payload: sourceBalance,
 });
 
-export const editBalanceItem = (balanceName) => ({
-  type: 'EDIT_BALANCE_ITEM',
-  payload: balanceName,
+export const editSourceBalance = (sourceBalance) => ({
+  type: 'EDIT_SOURCE_BALANCE',
+  payload: sourceBalance,
 });
 
-export const deleteBalanceItem = (balanceName) => ({
-  type: 'REMOVE_BALANCE_ITEM',
-  payload: balanceName,
+export const removeSourceBalance = (sourceBalance) => ({
+  type: 'REMOVE_SOURCE_BALANCE',
+  payload: sourceBalance,
 });
 
 export const newCostItem = (costItem) => ({

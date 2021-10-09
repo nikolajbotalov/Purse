@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { newBalanceItem } from '../redux/actions/newBalanceItem';
+import { createSoureBalance } from '../redux/actions/newBalanceItem';
 import { Header, BalanceInput, Description } from '../components';
 
 const NewBalance = () => {
@@ -19,7 +19,7 @@ const NewBalance = () => {
   };
 
   const saveBalanceItem = () => {
-    dispatch(newBalanceItem(balanceData));
+    dispatch(createSoureBalance(balanceData));
   };
 
   return (
