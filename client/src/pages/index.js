@@ -1,3 +1,4 @@
+export { default as AuthPage } from './AuthPage';
 export { default as BalancePage } from './BalancePage';
 export { default as ChangeBalancePage } from './ChangeBalancePage';
 export { default as EditSourceBalancePage } from './EditSourceBalancePage';

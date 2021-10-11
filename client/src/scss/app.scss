@@ -124,3 +124,38 @@ input {
   display: flex;
   justify-content: center;
 }
+
+.auth-container {
+  min-width: 320px;
+  margin-top: 150px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  input {
+    width: 300px;
+    margin-bottom: 20px;
+    padding: 16px 0 16px 16px;
+    border: 1px solid $balance-block-border;
+    background-color: transparent;
+    font-size: 18px;
+    line-height: 21px;
+  }
+}
+
+.auth-container__buttons {
+  min-width: 318px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    color: $balance-color-txt;
+    border: 1px solid $balance-block-border;
+
+    &.signin {
+      border: 1px solid $balance-bg;
+      background-color: $balance-bg;
+    }
+  }
+}

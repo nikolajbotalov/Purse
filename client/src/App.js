@@ -1,23 +1,25 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 
-import {
-  BalancePage,
-  ChangeBalancePage,
-  EditSourceBalancePage,
-  HomePage,
-  NewSourceBalancePage,
-} from './pages';
+import useRoutes from './routes';
+import { useAuth } from './hooks/auth.hook';
+import { AuthContext } from './context/AuthContext';
 
 const App = () => {
+  const { token, login, logout, userId } = useAuth();
+  const isAuthenticated = !!token;
+  const routes = useRoutes(isAuthenticated);
+
   return (
-    <div className="wrapper">
-      <Route path="/" component={HomePage} exact />
-      <Route path="/newsourcebalancepage" component={NewSourceBalancePage} exact />
-      <Route path="/editsourcebalancepage" component={EditSourceBalancePage} exact />
-      <Route path="/balancepage" component={BalancePage} />
-      <Route path="/changebalancepage" component={ChangeBalancePage} />
-    </div>
+    <AuthContext.Provider
+      value={{
+        token,
+        login,
+        logout,
+        userId,
+        isAuthenticated,
+      }}>
+      <div className="wrapper">{routes}</div>
+    </AuthContext.Provider>
   );
 };
 

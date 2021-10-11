@@ -1,10 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const BalanceInput = ({ classname, placeholder, name, onChange }) => {
+const BalanceInput = ({ classname, placeholder, name, onChange, type = 'text' }) => {
   return (
     <>
-      <input placeholder={placeholder} className={classname} name={name} onChange={onChange} />
+      <input
+        type={type}
+        placeholder={placeholder}
+        className={classname}
+        name={name}
+        onChange={onChange}
+      />
     </>
   );
 };
