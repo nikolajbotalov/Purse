@@ -30,7 +30,7 @@ button {
     &:hover {
       color: $balance-color-txt;
       background-color: $remove-color;
-      border: $remove-color;
+      border: 2px solid $remove-color;
     }
   }
 }
@@ -123,6 +123,12 @@ input {
 .list-controller {
   display: flex;
   justify-content: center;
+}
+
+.settings-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .auth-container {

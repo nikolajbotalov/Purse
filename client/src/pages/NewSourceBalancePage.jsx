@@ -1,10 +1,14 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
+import { useHttp } from '../hooks/http.hook';
 import { createSoureBalance } from '../redux/actions/BalanceActions';
 import { Header, BalanceInput, Description } from '../components';
 
 const NewSourceBalancePage = () => {
+  const { request } = useHttp();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [balanceData, setBalanceData] = React.useState(null);
 
@@ -18,8 +22,18 @@ const NewSourceBalancePage = () => {
     });
   };
 
-  const saveBalanceItem = () => {
-    dispatch(createSoureBalance(balanceData));
+  const saveBalanceItem = async () => {
+    try {
+      const { balanceName, balance } = balanceData;
+
+      const data = await request('/api/sourcebalance/create', 'POST', {
+        balanceName,
+        balance,
+      });
+      console.log(data.balanceData);
+      dispatch(createSoureBalance(balanceData));
+      // history.push('/');
+    } catch (e) {}
   };
 
   return (

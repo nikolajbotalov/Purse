@@ -4,11 +4,8 @@ import { AuthContext } from '../context/AuthContext';
 
 import { BalanceInput, Button, Header } from '../components';
 
-// TODO: Не срабатывает метод login
-
 const AuthPage = () => {
   const auth = React.useContext(AuthContext);
-  console.log(auth);
   const { loading, error, request } = useHttp();
   const [authData, setAuthData] = React.useState({
     email: '',
@@ -29,7 +26,7 @@ const AuthPage = () => {
 
   const loginHandler = async () => {
     try {
-      const data = await request('/api/auth/login');
+      const data = await request('/api/auth/login', 'POST', { ...authData });
       auth.login(data.token, data.userId);
     } catch (e) {}
   };

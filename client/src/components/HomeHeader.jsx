@@ -13,7 +13,9 @@ const HomeHeader = () => {
         <Button icon={addListIcon} />
       </Link>
 
-      <Button icon={settingsIcon} />
+      <Link to="/settings">
+        <Button icon={settingsIcon} />
+      </Link>
     </div>
   );
 };

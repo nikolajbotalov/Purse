@@ -7,6 +7,7 @@ import {
   EditSourceBalancePage,
   HomePage,
   NewSourceBalancePage,
+  Settings,
 } from './pages';
 
 const UseRoutes = (isAuthenticated) => {
@@ -18,6 +19,7 @@ const UseRoutes = (isAuthenticated) => {
         <Route path="/editsourcebalancepage" component={EditSourceBalancePage} exact />
         <Route path="/balancepage" component={BalancePage} />
         <Route path="/changebalancepage" component={ChangeBalancePage} />
+        <Route path="/settings" component={Settings} />
         <Redirect to="/" />
       </Switch>
     );

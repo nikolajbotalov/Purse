@@ -8,7 +8,6 @@ export const useAuth = () => {
   const [userId, setUserId] = React.useState(null);
 
   const login = React.useCallback((jwtToken, id) => {
-    console.log(jwtToken, id);
     setToken(jwtToken);
     setUserId(id);
 
