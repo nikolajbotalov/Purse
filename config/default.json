@@ -1,5 +1,5 @@
 {
   "port": 5000,
-  "mongoUri": "mongodb+srv://Nikolay:hDmyA_4end@budget.rekmd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "mongoUri": "mongodb+srv://Nikolay:hDmyA_4end@budget.rekmd.mongodb.net/BudgetApp?retryWrites=true&w=majority",
   "jwtSecret": "botalov budget app"
 }

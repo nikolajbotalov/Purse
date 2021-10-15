@@ -4,15 +4,18 @@ import { useSelector } from 'react-redux';
 import { Header, BalanceBlock, BalanceItem } from '../components';
 
 const BalancePage = ({ location }) => {
+  const balanceName = '';
+  const id = 1;
+  const balance = 0;
   const balanceData = useSelector(({ balanceReducer }) => balanceReducer.sourceBalance);
-  const { id, balanceName } = location.state;
+  // const { id, balanceName } = location.state;
 
   const getBalanceInfo = (balance) => {
     const balanceInfo = balance.find((bn) => (bn.balanceName === balanceName ? bn.balance : null));
     return balanceInfo;
   };
 
-  const { costs, balance } = getBalanceInfo(balanceData);
+  // const { costs, balance } = getBalanceInfo(balanceData);
 
   return (
     <div>
@@ -24,7 +27,7 @@ const BalancePage = ({ location }) => {
         balance={balance}
       />
       <BalanceBlock hideBtns={true} balance={balance} balanceName={balanceName} />
-      {costs &&
+      {/* {costs &&
         costs.map((item, index) => {
           return (
             <BalanceItem
@@ -34,7 +37,7 @@ const BalancePage = ({ location }) => {
               type={item.paidType}
             />
           );
-        })}
+        })} */}
     </div>
   );
 };

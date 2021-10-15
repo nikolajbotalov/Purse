@@ -2,12 +2,14 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import { createSoureBalance } from '../redux/actions/BalanceActions';
 import { Header, BalanceInput, Description } from '../components';
 
 const NewSourceBalancePage = () => {
   const { request } = useHttp();
+  const auth = React.useContext(AuthContext);
   const history = useHistory();
   const dispatch = useDispatch();
   const [balanceData, setBalanceData] = React.useState(null);
@@ -23,16 +25,19 @@ const NewSourceBalancePage = () => {
   };
 
   const saveBalanceItem = async () => {
+    const { balanceName, balance } = balanceData;
     try {
-      const { balanceName, balance } = balanceData;
-
-      const data = await request('/api/sourcebalance/create', 'POST', {
-        balanceName,
-        balance,
-      });
-      console.log(data.balanceData);
+      const data = await request(
+        '/api/sourcebalance/create',
+        'POST',
+        {
+          balanceName,
+          balance,
+        },
+        { Authorization: `Bearer ${auth.token}` },
+      );
       dispatch(createSoureBalance(balanceData));
-      // history.push('/');
+      history.push('/');
     } catch (e) {}
   };
 
