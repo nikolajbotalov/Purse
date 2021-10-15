@@ -9,6 +9,15 @@ module.exports.getAll = async (req, res) => {
   }
 };
 
+module.exports.getBalance = async (req, res) => {
+  try {
+    const sourceBalance = await SourceBalance.find({ _id: req._id });
+    res.json(sourceBalance);
+  } catch (e) {
+    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+  }
+};
+
 module.exports.createSourceBalance = async (req, res) => {
   try {
     const { balanceName, balance } = req.body;

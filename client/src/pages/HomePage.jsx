@@ -33,7 +33,16 @@ const Home = () => {
       {sourceBalance &&
         sourceBalance.map((source) => {
           return (
-            <Link to="/balancepage">
+            <Link
+              key={source._id}
+              to={{
+                pathname: '/balancepage',
+                state: {
+                  id: source._id,
+                  balanceName: source.balanceName,
+                  balance: source.balance,
+                },
+              }}>
               <BalanceItem key={source.id} name={source.balanceName} balance={source.balance} />
             </Link>
           );

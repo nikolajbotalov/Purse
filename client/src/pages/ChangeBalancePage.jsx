@@ -1,12 +1,16 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 
-import { newCostItem, newIncomeItem } from '../redux/actions/BalanceActions';
+import { useHttp } from '../hooks/http.hook';
+import { AuthContext } from '../context/AuthContext';
+// import { newCostItem, newIncomeItem } from '../redux/actions/BalanceActions';
 import { BalanceBlock, Header, BalanceInput } from '../components';
 
 const ChangeBalancePage = ({ location }) => {
-  const dispatch = useDispatch();
-  const { balance, balanceName, link } = location.state;
+  const { token } = React.useContext(AuthContext);
+  const { request } = useHttp();
+  // const dispatch = useDispatch();
+  const { balance, link, id } = location.state;
   const [paidData, setPaidData] = React.useState(null);
 
   const getChangeData = (e) => {
@@ -19,15 +23,29 @@ const ChangeBalancePage = ({ location }) => {
     });
   };
 
-  const savePaidItem = () => {
-    link === 'cost'
-      ? dispatch(newCostItem({ paidData, balanceName, link }))
-      : dispatch(newIncomeItem({ paidData, balanceName, link }));
+  const fetchChangeBalanceItem = async () => {
+    try {
+      const { paidItemName, price } = paidData;
+
+      const sendRequest = await request(
+        '/api/balanceitem/create',
+        'POST',
+        { paidItemName, price, id },
+        { Authorization: `Bearer ${token}` },
+      );
+
+      return () => {};
+    } catch (error) {}
   };
 
   return (
     <div>
-      <Header backBtnText="отмена" saveBtnText="сохранить" prevPage="/" saveHandle={savePaidItem} />
+      <Header
+        backBtnText="отмена"
+        saveBtnText="сохранить"
+        prevPage="/"
+        saveHandle={fetchChangeBalanceItem}
+      />
       <BalanceBlock classname={link} balance={balance} />
       <div className="description">
         <BalanceInput
@@ -42,3 +60,7 @@ const ChangeBalancePage = ({ location }) => {
 };
 
 export default ChangeBalancePage;
+
+// link === 'cost'
+// ? dispatch(newCostItem({ paidData, balanceName, link }))
+// : dispatch(newIncomeItem({ paidData, balanceName, link }));

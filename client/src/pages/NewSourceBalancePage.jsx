@@ -9,7 +9,7 @@ import { Header, BalanceInput, Description } from '../components';
 
 const NewSourceBalancePage = () => {
   const { request } = useHttp();
-  const auth = React.useContext(AuthContext);
+  const { token } = React.useContext(AuthContext);
   const history = useHistory();
   const dispatch = useDispatch();
   const [balanceData, setBalanceData] = React.useState(null);
@@ -34,7 +34,7 @@ const NewSourceBalancePage = () => {
           balanceName,
           balance,
         },
-        { Authorization: `Bearer ${auth.token}` },
+        { Authorization: `Bearer ${token}` },
       );
       dispatch(createSoureBalance(balanceData));
       history.push('/');

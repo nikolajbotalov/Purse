@@ -1,21 +1,23 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
+import { useHttp } from '../hooks/http.hook';
 import { Header, BalanceBlock, BalanceItem } from '../components';
 
 const BalancePage = ({ location }) => {
-  const balanceName = '';
-  const id = 1;
-  const balance = 0;
-  const balanceData = useSelector(({ balanceReducer }) => balanceReducer.sourceBalance);
-  // const { id, balanceName } = location.state;
+  const [paidItems, setPaidItems] = React.useState(null);
+  const { request } = useHttp();
+  const { id, balanceName, balance } = location.state;
 
-  const getBalanceInfo = (balance) => {
-    const balanceInfo = balance.find((bn) => (bn.balanceName === balanceName ? bn.balance : null));
-    return balanceInfo;
-  };
+  const fetchPaidItems = React.useCallback(async () => {
+    try {
+      const data = await request('/api/balanceitem/getpaiditems', 'POST', { id });
+      setPaidItems(data);
+    } catch (e) {}
+  }, [id, request]);
 
-  // const { costs, balance } = getBalanceInfo(balanceData);
+  React.useEffect(() => {
+    fetchPaidItems();
+  }, [fetchPaidItems]);
 
   return (
     <div>
@@ -26,18 +28,11 @@ const BalancePage = ({ location }) => {
         balanceName={balanceName}
         balance={balance}
       />
-      <BalanceBlock hideBtns={true} balance={balance} balanceName={balanceName} />
-      {/* {costs &&
-        costs.map((item, index) => {
-          return (
-            <BalanceItem
-              key={index}
-              name={item.paidItemName}
-              balance={item.price}
-              type={item.paidType}
-            />
-          );
-        })} */}
+      <BalanceBlock id={id} hideBtns={true} balance={balance} balanceName={balanceName} />
+      {paidItems &&
+        paidItems.map((item) => {
+          return <BalanceItem key={item._id} name={item.paidItemName} balance={item.price} />;
+        })}
     </div>
   );
 };
