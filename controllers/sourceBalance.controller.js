@@ -36,6 +36,29 @@ module.exports.createSourceBalance = async (req, res) => {
 
     res.status(201).json({ message: `Удачно` });
   } catch (e) {
+    console.log({ message: e });
+    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+  }
+};
+
+module.exports.rename = async (req, res) => {
+  try {
+    const renameSourceBalance = await SourceBalance.find({ _id: req.body._id }).updateOne({
+      balanceName: req.body.balanceName,
+    });
+  } catch (e) {
+    console.log({ message: e });
+    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+  }
+};
+
+module.exports.delete = async (req, res) => {
+  try {
+    await SourceBalance.deleteOne({ _id: req.body._id });
+
+    res.json({ message: 'Источник удален' });
+  } catch (e) {
+    console.log({ message: e });
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }
 };
