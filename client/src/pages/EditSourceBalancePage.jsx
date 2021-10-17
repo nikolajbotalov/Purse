@@ -1,30 +1,30 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { useHttp } from '../hooks/http.hook';
-// import { editSourceBalance } from '../redux/actions/BalanceActions';
 import { BalanceInput, Button, Description, Header } from '../components';
 
 const EditSourceBalancePage = ({ location }) => {
   const history = useHistory();
   const { request } = useHttp();
-  const dispatch = useDispatch();
   const { id, balanceName } = location.state;
-  const [newSourceBalanceName, setNewSourceBalanceName] = React.useState(null);
+  const [newSourceBalanceName, setNewSourceBalanceName] = React.useState({
+    balanceName: '',
+  });
 
   const getNewSourceBalanceName = (e) => {
-    setNewSourceBalanceName(e.target.value);
+    setNewSourceBalanceName({ ...newSourceBalanceName, [e.target.name]: e.target.value });
   };
 
   const editSourceBalanceHandler = async () => {
     try {
-      await request('/api/sourcebalance/renamesourceofbalance', 'PATCH', {
+      const renaming = await request('/api/sourcebalance/renamesourceofbalance', 'PATCH', {
         _id: id,
-        balanceName: newSourceBalanceName,
+        balanceName: newSourceBalanceName.balanceName,
       });
+
+      // TODO: подключить библиотеку react-popup и вывести текст сообщения ошибки
     } catch (e) {}
-    // dispatch(editSourceBalance({ newSourceBalanceName, balanceName }));
   };
 
   const removeSourceBalanceHandler = async () => {
@@ -46,6 +46,7 @@ const EditSourceBalancePage = ({ location }) => {
       />
       <BalanceInput
         placeholder={balanceName}
+        name="balanceName"
         classname="balance-input"
         onChange={getNewSourceBalanceName}
       />

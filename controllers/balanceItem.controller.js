@@ -1,4 +1,5 @@
 const BalanceItem = require('../models/BalanceItem');
+const { validationResult } = require('express-validator');
 
 module.exports.getPaidItems = async (req, res) => {
   try {
@@ -12,6 +13,15 @@ module.exports.getPaidItems = async (req, res) => {
 module.exports.create = async (req, res) => {
   try {
     const { paidItemName, price, id } = req.body;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+        message: 'Название и сумма не могут быть пустыми',
+      });
+    }
 
     const paidItem = await BalanceItem({
       paidItemName,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 
 import { useHttp } from '../hooks/http.hook';
@@ -7,6 +8,7 @@ import { AuthContext } from '../context/AuthContext';
 import { BalanceBlock, Header, BalanceInput } from '../components';
 
 const ChangeBalancePage = ({ location }) => {
+  const history = useHistory();
   const { token } = React.useContext(AuthContext);
   const { request } = useHttp();
   // const dispatch = useDispatch();
@@ -27,14 +29,16 @@ const ChangeBalancePage = ({ location }) => {
     try {
       const { paidItemName, price } = paidData;
 
-      const sendRequest = await request(
+      await request(
         '/api/balanceitem/create',
         'POST',
         { paidItemName, price, id },
         { Authorization: `Bearer ${token}` },
       );
 
-      return () => {};
+      // TODO: подключить библиотеку react-popup и вывести сообщение об ошибке полей
+
+      history.push('/');
     } catch (error) {}
   };
 

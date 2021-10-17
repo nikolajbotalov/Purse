@@ -1,17 +1,14 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
-import { createSoureBalance } from '../redux/actions/BalanceActions';
 import { Header, BalanceInput, Description } from '../components';
 
 const NewSourceBalancePage = () => {
   const { request } = useHttp();
   const { token } = React.useContext(AuthContext);
   const history = useHistory();
-  const dispatch = useDispatch();
   const [balanceData, setBalanceData] = React.useState(null);
 
   const getBalanceData = (e) => {
@@ -27,7 +24,7 @@ const NewSourceBalancePage = () => {
   const saveBalanceItem = async () => {
     const { balanceName, balance } = balanceData;
     try {
-      const data = await request(
+      await request(
         '/api/sourcebalance/create',
         'POST',
         {
@@ -36,7 +33,8 @@ const NewSourceBalancePage = () => {
         },
         { Authorization: `Bearer ${token}` },
       );
-      dispatch(createSoureBalance(balanceData));
+
+      // TODO: Подключить библиотеку react-popup и вывести сообщение об ошибке
       history.push('/');
     } catch (e) {}
   };

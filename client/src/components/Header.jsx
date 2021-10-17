@@ -23,7 +23,6 @@ const Header = ({
 
   const onSaveClick = () => {
     saveHandle();
-    history.push('/');
   };
 
   return (
