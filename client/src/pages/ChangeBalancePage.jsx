@@ -1,28 +1,24 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
 
 import { useHttp } from '../hooks/http.hook';
 import { AuthContext } from '../context/AuthContext';
-// import { newCostItem, newIncomeItem } from '../redux/actions/BalanceActions';
-import { BalanceBlock, Header, BalanceInput } from '../components';
+import { BalanceBlock, BalanceInput, Error, Header } from '../components';
 
 const ChangeBalancePage = ({ location }) => {
   const history = useHistory();
   const { token } = React.useContext(AuthContext);
   const { request } = useHttp();
-  // const dispatch = useDispatch();
   const { balance, link, id } = location.state;
-  const [paidData, setPaidData] = React.useState(null);
+  const [paidData, setPaidData] = React.useState({
+    paidItemName: '',
+    price: '',
+  });
+  const [messageError, setMessageError] = React.useState('');
 
   const getChangeData = (e) => {
-    const data = {
-      [e.target.name]: e.target.value,
-    };
-
-    setPaidData((prevState) => {
-      return { ...prevState, ...data };
-    });
+    setMessageError('');
+    setPaidData({ ...paidData, [e.target.name]: e.target.value });
   };
 
   const fetchChangeBalanceItem = async () => {
@@ -36,10 +32,10 @@ const ChangeBalancePage = ({ location }) => {
         { Authorization: `Bearer ${token}` },
       );
 
-      // TODO: подключить библиотеку react-popup и вывести сообщение об ошибке полей
-
       history.push('/');
-    } catch (error) {}
+    } catch ({ message }) {
+      setMessageError(message);
+    }
   };
 
   return (
@@ -58,13 +54,10 @@ const ChangeBalancePage = ({ location }) => {
           onChange={getChangeData}
         />
         <BalanceInput name="price" placeholder="Введите сумму" onChange={getChangeData} />
+        <Error errorText={messageError} />
       </div>
     </div>
   );
 };
 
 export default ChangeBalancePage;
-
-// link === 'cost'
-// ? dispatch(newCostItem({ paidData, balanceName, link }))
-// : dispatch(newIncomeItem({ paidData, balanceName, link }));

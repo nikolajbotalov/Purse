@@ -3,22 +3,21 @@ import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
-import { Header, BalanceInput, Description } from '../components';
+import { BalanceInput, Description, Error, Header } from '../components';
 
 const NewSourceBalancePage = () => {
   const { request } = useHttp();
   const { token } = React.useContext(AuthContext);
   const history = useHistory();
-  const [balanceData, setBalanceData] = React.useState(null);
+  const [balanceData, setBalanceData] = React.useState({
+    balanceName: '',
+    balance: '',
+  });
+  const [messageError, setMessageError] = React.useState('');
 
   const getBalanceData = (e) => {
-    const data = {
-      [e.target.name]: e.target.value,
-    };
-
-    setBalanceData((prevState) => {
-      return { ...prevState, ...data };
-    });
+    setMessageError('');
+    setBalanceData({ ...balanceData, [e.target.name]: e.target.value });
   };
 
   const saveBalanceItem = async () => {
@@ -34,9 +33,10 @@ const NewSourceBalancePage = () => {
         { Authorization: `Bearer ${token}` },
       );
 
-      // TODO: Подключить библиотеку react-popup и вывести сообщение об ошибке
       history.push('/');
-    } catch (e) {}
+    } catch ({ message }) {
+      setMessageError(message);
+    }
   };
 
   return (
@@ -68,6 +68,7 @@ const NewSourceBalancePage = () => {
         classname="balance-input__description"
         text="Укажите начальный баланс счета (Бюджет)"
       />
+      <Error errorText={messageError} />
     </div>
   );
 };

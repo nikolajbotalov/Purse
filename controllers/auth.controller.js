@@ -16,9 +16,9 @@ module.exports.register = async (req, res) => {
     }
 
     const { email, password } = req.body;
-    const candidate = await User.findOne({ email });
+    const existMail = await User.findOne({ email });
 
-    if (candidate) {
+    if (existMail) {
       return res.status(400).json({ message: 'Такой пользователь уже существует' });
     }
 
@@ -53,7 +53,7 @@ module.exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ message: 'Неверный пароль, попробуйте снова' });
+      return res.status(400).json({ message: 'Неверный логин или пароль' });
     }
 
     const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), { expiresIn: '1h' });

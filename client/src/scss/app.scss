@@ -53,8 +53,8 @@ input {
 }
 
 .wrapper {
-  width: 415px;
-  height: 712px;
+  max-width: 415px;
+  min-height: 712px;
   background-color: $background;
 }
 
