@@ -28,7 +28,7 @@ module.exports.register = async (req, res) => {
     await user.save();
     res.status(200).json({ message: 'Пользователь создан' });
   } catch (e) {
-    res.status(500).json({ message: 'Что-то пошшло не так, попробуйте снова' });
+    res.status(500).json({ message: `Что-то пошло не так, попробуйте снова` });
   }
 };
 

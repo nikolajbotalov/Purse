@@ -3,10 +3,10 @@ import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
-import { BalanceInput, Description, Error, Header } from '../components';
+import { BalanceInput, Description, Error, Header, Preloader } from '../components';
 
 const NewSourceBalancePage = () => {
-  const { request } = useHttp();
+  const { loading, request } = useHttp();
   const { token } = React.useContext(AuthContext);
   const history = useHistory();
   const [balanceData, setBalanceData] = React.useState({
@@ -20,7 +20,7 @@ const NewSourceBalancePage = () => {
     setBalanceData({ ...balanceData, [e.target.name]: e.target.value });
   };
 
-  const saveBalanceItem = async () => {
+  const createSourceBalance = async () => {
     const { balanceName, balance } = balanceData;
     try {
       await request(
@@ -32,21 +32,55 @@ const NewSourceBalancePage = () => {
         },
         { Authorization: `Bearer ${token}` },
       );
-
-      history.push('/');
     } catch ({ message }) {
       setMessageError(message);
     }
   };
 
+  const updateUserBalance = async () => {
+    const { balance } = balanceData;
+    try {
+      await request(
+        '/api/user/updatecurrentuserbalance',
+        'PATCH',
+        {
+          balance,
+        },
+        { Authorization: `Bearer ${token}` },
+      );
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
+
+  const saveBalanceItem = () => {
+    let unmounted = false;
+
+    if (!unmounted) {
+      createSourceBalance();
+      updateUserBalance();
+      history.push('/');
+    }
+
+    return () => {
+      unmounted = true;
+    };
+  };
+
+  if (loading) {
+    return <Preloader />;
+  }
+
   return (
     <div>
-      <Header
-        backBtnText="отмена"
-        saveBtnText="сохранить"
-        prevPage="/"
-        saveHandle={saveBalanceItem}
-      />
+      {!loading && (
+        <Header
+          backBtnText="отмена"
+          saveBtnText="сохранить"
+          prevPage="/"
+          saveHandle={saveBalanceItem}
+        />
+      )}
 
       <BalanceInput
         classname="balance-input"

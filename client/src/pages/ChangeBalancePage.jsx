@@ -10,18 +10,18 @@ const ChangeBalancePage = ({ location }) => {
   const { token } = React.useContext(AuthContext);
   const { request } = useHttp();
   const { balance, link, id } = location.state;
+  const [messageError, setMessageError] = React.useState('');
   const [paidData, setPaidData] = React.useState({
     paidItemName: '',
     price: '',
   });
-  const [messageError, setMessageError] = React.useState('');
 
   const getChangeData = (e) => {
     setMessageError('');
     setPaidData({ ...paidData, [e.target.name]: e.target.value });
   };
 
-  const fetchChangeBalanceItem = async () => {
+  const changeBalanceItem = async () => {
     try {
       const { paidItemName, price } = paidData;
 
@@ -31,11 +31,42 @@ const ChangeBalancePage = ({ location }) => {
         { paidItemName, price, id },
         { Authorization: `Bearer ${token}` },
       );
-
-      history.push('/');
     } catch ({ message }) {
       setMessageError(message);
     }
+  };
+
+  const changeUserBalance = async () => {
+    try {
+      const userBalance = await request(
+        '/api/user/changeuserbalance',
+        'PATCH',
+        { balance: paidData.price, link: link },
+        { Authorization: `Bearer ${token}` },
+      );
+      console.log(userBalance);
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
+
+  const changeItemBalance = async () => {
+    try {
+      const itemPrice = await request('/api/sourcebalance/changebalance', 'PATCH', {
+        price: paidData.price,
+        id: id,
+      });
+      console.log(itemPrice);
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
+
+  const changeUserData = () => {
+    changeBalanceItem();
+    changeItemBalance();
+    changeUserBalance();
+    history.push('/');
   };
 
   return (
@@ -44,7 +75,7 @@ const ChangeBalancePage = ({ location }) => {
         backBtnText="отмена"
         saveBtnText="сохранить"
         prevPage="/"
-        saveHandle={fetchChangeBalanceItem}
+        saveHandle={changeUserData}
       />
       <BalanceBlock classname={link} balance={balance} />
       <div className="description">

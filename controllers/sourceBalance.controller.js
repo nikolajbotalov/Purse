@@ -10,15 +10,6 @@ module.exports.getAll = async (req, res) => {
   }
 };
 
-module.exports.getBalance = async (req, res) => {
-  try {
-    const sourceBalance = await SourceBalance.find({ _id: req._id });
-    res.json(sourceBalance);
-  } catch (e) {
-    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
-  }
-};
-
 module.exports.createSourceBalance = async (req, res) => {
   try {
     const { balanceName, balance } = req.body;
@@ -45,7 +36,6 @@ module.exports.createSourceBalance = async (req, res) => {
 
     res.status(201).json({ message: `Удачно` });
   } catch (e) {
-    console.log({ message: e });
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }
 };
@@ -67,7 +57,6 @@ module.exports.rename = async (req, res) => {
 
     res.status(201).json({ message: 'Удачно' });
   } catch (e) {
-    console.log({ message: e });
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }
 };
@@ -78,7 +67,21 @@ module.exports.delete = async (req, res) => {
 
     res.json({ message: 'Источник удален' });
   } catch (e) {
-    console.log({ message: e });
+    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+  }
+};
+
+module.exports.changeBalance = async (req, res) => {
+  try {
+    const { price, id } = req.body;
+    const balanceItem = await SourceBalance.findById({ _id: id });
+    const itemPrice = balanceItem.balance - price;
+
+    console.log(itemPrice);
+
+    await balanceItem.updateOne({ balance: itemPrice });
+    res.json({ message: 'Удачно' });
+  } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }
 };

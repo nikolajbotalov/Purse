@@ -3,17 +3,15 @@ import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
-import { HomeHeader, BalanceBlock, BalanceItem } from '../components';
-
-// TODO: подумать на реализации подсчета общего баланса
+import { BalanceBlock, BalanceItem, HomeHeader, Preloader } from '../components';
 
 const Home = () => {
   const { token } = React.useContext(AuthContext);
-  const totalBalance = 0;
-  const { request } = useHttp();
+  const { loading, request } = useHttp();
   const [sourceBalance, setSourceBalance] = React.useState(null);
+  const [userBalance, setUserBalance] = React.useState(0);
 
-  const fetchedSourceBalance = React.useCallback(async () => {
+  const getSourceBalance = React.useCallback(async () => {
     try {
       const data = await request('/api/sourcebalance/getsourceofbalance', 'GET', null, {
         Authorization: `Bearer ${token}`,
@@ -22,15 +20,40 @@ const Home = () => {
     } catch (e) {}
   }, [token, request]);
 
+  const getUserBalance = React.useCallback(async () => {
+    try {
+      const balance = await request('/api/user/getuserbalance', 'POST', null, {
+        Authorization: `Bearer ${token}`,
+      });
+      setUserBalance(balance);
+    } catch ({ message }) {
+      console.log(message);
+    }
+  }, [token, request]);
+
   React.useEffect(() => {
-    fetchedSourceBalance();
-  }, [fetchedSourceBalance]);
+    let unmounted = false;
+
+    if (!unmounted) {
+      getSourceBalance();
+      getUserBalance();
+    }
+
+    return () => {
+      unmounted = true;
+    };
+  }, [getSourceBalance, getUserBalance]);
+
+  if (loading) {
+    return <Preloader />;
+  }
 
   return (
     <div>
       <HomeHeader />
-      <BalanceBlock classname="home" balance={totalBalance} />
-      {sourceBalance &&
+      <BalanceBlock classname="home" balance={userBalance} />
+      {!loading &&
+        sourceBalance &&
         sourceBalance.map((source) => {
           return (
             <Link

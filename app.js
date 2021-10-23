@@ -9,6 +9,7 @@ app.use(express.json({ extended: true }));
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/sourcebalance', require('./routes/sourceBalance.routes'));
 app.use('/api/balanceitem', require('./routes/balanceItem.routes'));
+app.use('/api/user', require('./routes/user.routes'));
 
 const PORT = config.get('port') || 5000;
 

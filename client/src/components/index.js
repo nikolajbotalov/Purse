@@ -6,3 +6,4 @@ export { default as Description } from './Description';
 export { default as Error } from './Error';
 export { default as Header } from './Header';
 export { default as HomeHeader } from './HomeHeader';
+export { default as Preloader } from './Preloader';

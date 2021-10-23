@@ -2,29 +2,31 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useHttp } from '../hooks/http.hook';
-import { BalanceInput, Button, Description, Header } from '../components';
+import { BalanceInput, Button, Description, Error, Header } from '../components';
 
 const EditSourceBalancePage = ({ location }) => {
   const history = useHistory();
   const { request } = useHttp();
   const { id, balanceName } = location.state;
+  const [messageError, setMessageError] = React.useState('');
   const [newSourceBalanceName, setNewSourceBalanceName] = React.useState({
     balanceName: '',
   });
 
   const getNewSourceBalanceName = (e) => {
+    setMessageError('');
     setNewSourceBalanceName({ ...newSourceBalanceName, [e.target.name]: e.target.value });
   };
 
   const editSourceBalanceHandler = async () => {
     try {
-      const renaming = await request('/api/sourcebalance/renamesourceofbalance', 'PATCH', {
+      await request('/api/sourcebalance/renamesourceofbalance', 'PATCH', {
         _id: id,
         balanceName: newSourceBalanceName.balanceName,
       });
-
-      // TODO: подключить библиотеку react-popup и вывести текст сообщения ошибки
-    } catch (e) {}
+    } catch ({ message }) {
+      setMessageError(message);
+    }
   };
 
   const removeSourceBalanceHandler = async () => {
@@ -54,6 +56,7 @@ const EditSourceBalancePage = ({ location }) => {
         text="Измените название списка для счета"
         classname="balance-input__description"
       />
+      <Error errorText={messageError} />
       <div className="list-controller">
         <Button btnText="удалить список" onClick={removeSourceBalanceHandler} classname="remove" />
       </div>
