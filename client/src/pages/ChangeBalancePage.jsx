@@ -36,36 +36,35 @@ const ChangeBalancePage = ({ location }) => {
     }
   };
 
-  const changeUserBalance = async () => {
+  const updateUserTotalBalance = async () => {
     try {
-      const userBalance = await request(
-        '/api/user/changeuserbalance',
+      await request(
+        '/api/user/updateusertotalbalance',
         'PATCH',
         { balance: paidData.price, link: link },
         { Authorization: `Bearer ${token}` },
       );
-      console.log(userBalance);
     } catch ({ message }) {
       console.log(message);
     }
   };
 
-  const changeItemBalance = async () => {
+  const updateItemBalance = async () => {
     try {
-      const itemPrice = await request('/api/sourcebalance/changebalance', 'PATCH', {
-        price: paidData.price,
+      await request('/api/sourcebalance/updateitembalance', 'PATCH', {
         id: id,
+        link: link,
+        price: paidData.price,
       });
-      console.log(itemPrice);
     } catch ({ message }) {
       console.log(message);
     }
   };
 
-  const changeUserData = () => {
-    changeBalanceItem();
-    changeItemBalance();
-    changeUserBalance();
+  const changeUserData = async () => {
+    await updateItemBalance();
+    await changeBalanceItem();
+    await updateUserTotalBalance();
     history.push('/');
   };
 

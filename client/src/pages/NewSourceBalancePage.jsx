@@ -9,11 +9,11 @@ const NewSourceBalancePage = () => {
   const { loading, request } = useHttp();
   const { token } = React.useContext(AuthContext);
   const history = useHistory();
+  const [messageError, setMessageError] = React.useState('');
   const [balanceData, setBalanceData] = React.useState({
     balanceName: '',
     balance: '',
   });
-  const [messageError, setMessageError] = React.useState('');
 
   const getBalanceData = (e) => {
     setMessageError('');
@@ -37,14 +37,15 @@ const NewSourceBalancePage = () => {
     }
   };
 
-  const updateUserBalance = async () => {
+  const updateUserTotalBalance = async () => {
     const { balance } = balanceData;
     try {
       await request(
-        '/api/user/updatecurrentuserbalance',
+        '/api/user/updateusertotalbalance',
         'PATCH',
         {
           balance,
+          changeSign: 'increase',
         },
         { Authorization: `Bearer ${token}` },
       );
@@ -53,18 +54,11 @@ const NewSourceBalancePage = () => {
     }
   };
 
-  const saveBalanceItem = () => {
-    let unmounted = false;
+  const saveBalanceItem = async () => {
+    await createSourceBalance();
+    await updateUserTotalBalance();
 
-    if (!unmounted) {
-      createSourceBalance();
-      updateUserBalance();
-      history.push('/');
-    }
-
-    return () => {
-      unmounted = true;
-    };
+    history.push('/');
   };
 
   if (loading) {

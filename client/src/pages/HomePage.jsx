@@ -32,16 +32,8 @@ const Home = () => {
   }, [token, request]);
 
   React.useEffect(() => {
-    let unmounted = false;
-
-    if (!unmounted) {
-      getSourceBalance();
-      getUserBalance();
-    }
-
-    return () => {
-      unmounted = true;
-    };
+    getSourceBalance();
+    getUserBalance();
   }, [getSourceBalance, getUserBalance]);
 
   if (loading) {

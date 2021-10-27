@@ -1,13 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import { BalanceInput, Button, Description, Error, Header } from '../components';
 
 const EditSourceBalancePage = ({ location }) => {
   const history = useHistory();
   const { request } = useHttp();
-  const { id, balanceName } = location.state;
+  const { id, balance, balanceName } = location.state;
+  const { token } = React.useContext(AuthContext);
   const [messageError, setMessageError] = React.useState('');
   const [newSourceBalanceName, setNewSourceBalanceName] = React.useState({
     balanceName: '',
@@ -18,7 +20,7 @@ const EditSourceBalancePage = ({ location }) => {
     setNewSourceBalanceName({ ...newSourceBalanceName, [e.target.name]: e.target.value });
   };
 
-  const editSourceBalanceHandler = async () => {
+  const renameSourceBalanceHandler = async () => {
     try {
       await request('/api/sourcebalance/renamesourceofbalance', 'PATCH', {
         _id: id,
@@ -38,13 +40,32 @@ const EditSourceBalancePage = ({ location }) => {
     } catch (e) {}
   };
 
+  const updateUserTotalBalance = async () => {
+    try {
+      await request(
+        '/api/user/updateusertotalbalance',
+        'PATCH',
+        {
+          balance,
+          changeSign: 'reduce',
+        },
+        { Authorization: `Bearer ${token}` },
+      );
+    } catch (e) {}
+  };
+
+  const removeHandler = async () => {
+    await updateUserTotalBalance();
+    await removeSourceBalanceHandler();
+  };
+
   return (
     <div>
       <Header
         backBtnText="назад"
         saveBtnText="сохранить"
         prevPage="/"
-        saveHandle={editSourceBalanceHandler}
+        saveHandle={renameSourceBalanceHandler}
       />
       <BalanceInput
         placeholder={balanceName}
@@ -58,7 +79,7 @@ const EditSourceBalancePage = ({ location }) => {
       />
       <Error errorText={messageError} />
       <div className="list-controller">
-        <Button btnText="удалить список" onClick={removeSourceBalanceHandler} classname="remove" />
+        <Button btnText="удалить список" onClick={removeHandler} classname="remove" />
       </div>
     </div>
   );

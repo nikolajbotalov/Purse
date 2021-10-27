@@ -1,17 +1,17 @@
 import React from 'react';
+
 import { useHttp } from '../hooks/http.hook';
 import { AuthContext } from '../context/AuthContext';
-
 import { BalanceInput, Button, Error, Header } from '../components';
 
 const AuthPage = () => {
   const auth = React.useContext(AuthContext);
   const { loading, error, request } = useHttp();
+  const [errorMessage, setErrorMessage] = React.useState('');
   const [authData, setAuthData] = React.useState({
     email: '',
     password: '',
   });
-  const [errorMessage, setErrorMessage] = React.useState('');
 
   React.useEffect(() => {}, [error]);
 

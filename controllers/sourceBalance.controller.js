@@ -71,15 +71,16 @@ module.exports.delete = async (req, res) => {
   }
 };
 
-module.exports.changeBalance = async (req, res) => {
+module.exports.updateItemBalance = async (req, res) => {
   try {
-    const { price, id } = req.body;
-    const balanceItem = await SourceBalance.findById({ _id: id });
-    const itemPrice = balanceItem.balance - price;
+    const { id, link, price } = req.body;
+    const sourceBalance = await SourceBalance.findById({ _id: id });
 
-    console.log(itemPrice);
+    link === 'cost'
+      ? (sourceBalance.balance = sourceBalance.balance - price)
+      : (sourceBalance.balance = +price + sourceBalance.balance);
 
-    await balanceItem.updateOne({ balance: itemPrice });
+    await sourceBalance.updateOne({ balance: sourceBalance.balance });
     res.json({ message: 'Удачно' });
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });

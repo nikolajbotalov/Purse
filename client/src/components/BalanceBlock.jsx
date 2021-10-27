@@ -8,7 +8,6 @@ import removeIcon from '../assets/img/remove.svg';
 import addIcon from '../assets/img/add.svg';
 
 const BalanceBlock = ({ id, hideBtns, classname, balance, balanceName }) => {
-  // console.log(id);
   return (
     <div className={!classname ? 'balance-block' : `balance-block ${classname}`}>
       {!hideBtns ? null : (
@@ -25,7 +24,7 @@ const BalanceBlock = ({ id, hideBtns, classname, balance, balanceName }) => {
         <Link
           to={{
             pathname: '/changebalancepage/income',
-            state: { balance, balanceName, link: 'income' },
+            state: { balance, balanceName, link: 'income', id },
           }}>
           <Button icon={addIcon} classname="add" />
         </Link>
