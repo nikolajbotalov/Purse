@@ -1,12 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { sourceBalanceAPI, userAPI } from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import { BalanceInput, Description, Error, Header, Preloader } from '../components';
 
 const NewSourceBalancePage = () => {
-  const { loading, request } = useHttp();
+  const { loading } = useHttp();
   const { token } = React.useContext(AuthContext);
   const history = useHistory();
   const [messageError, setMessageError] = React.useState('');
@@ -23,15 +24,11 @@ const NewSourceBalancePage = () => {
   const createSourceBalance = async () => {
     const { balanceName, balance } = balanceData;
     try {
-      await request(
-        '/api/sourcebalance/create',
-        'POST',
-        {
-          balanceName,
-          balance,
-        },
-        { Authorization: `Bearer ${token}` },
-      );
+      await sourceBalanceAPI.create({
+        balanceName,
+        balance,
+        token: { Authorization: `Bearer ${token}` },
+      });
     } catch ({ message }) {
       setMessageError(message);
     }
@@ -40,15 +37,11 @@ const NewSourceBalancePage = () => {
   const updateUserTotalBalance = async () => {
     const { balance } = balanceData;
     try {
-      await request(
-        '/api/user/updateusertotalbalance',
-        'PATCH',
-        {
-          balance,
-          changeSign: 'increase',
-        },
-        { Authorization: `Bearer ${token}` },
-      );
+      await userAPI.updateTotalBalance({
+        balance,
+        changeSign: 'increase',
+        token: { Authorization: `Bearer ${token}` },
+      });
     } catch ({ message }) {
       console.log(message);
     }

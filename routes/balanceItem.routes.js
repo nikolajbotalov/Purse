@@ -5,6 +5,6 @@ const controller = require('../controllers/balanceItem.controller');
 const router = Router();
 
 router.post('/create', auth, validation.newBalanceItem, controller.create);
-router.post('/getpaiditems', controller.getPaidItems);
+router.post('/getbalanceitems', controller.getPaidItems);
 
 module.exports = router;

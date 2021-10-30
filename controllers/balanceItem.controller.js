@@ -12,7 +12,7 @@ module.exports.getPaidItems = async (req, res) => {
 
 module.exports.create = async (req, res) => {
   try {
-    const { paidItemName, price, id } = req.body;
+    const { id, link, paidItemName, price } = req.body;
 
     const errors = validationResult(req);
 
@@ -26,6 +26,7 @@ module.exports.create = async (req, res) => {
     const paidItem = await BalanceItem({
       paidItemName,
       price,
+      paidType: link,
       sourceBalance: id,
       user: req.user.userId,
     });

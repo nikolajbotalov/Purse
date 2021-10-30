@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const BalanceItem = ({ id, name, balance, type }) => {
+const BalanceItem = ({ balance, name, type }) => {
   return (
     <div className="balance-item">
       <p className="balance-item__title">{name}</p>

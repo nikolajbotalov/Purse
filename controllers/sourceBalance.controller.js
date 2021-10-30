@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator');
 module.exports.getAll = async (req, res) => {
   try {
     const sourceBalance = await SourceBalance.find({ user: req.user.userId });
+
     res.json(sourceBalance);
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
@@ -63,9 +64,10 @@ module.exports.rename = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
   try {
-    await SourceBalance.deleteOne({ _id: req.body._id });
+    const { id } = req.body;
+    await SourceBalance.deleteOne({ _id: id.id });
 
-    res.json({ message: 'Источник удален' });
+    res.json({ message: `Источник удален` });
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }

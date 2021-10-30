@@ -4,7 +4,7 @@ const controller = require('../controllers/user.controller');
 
 const router = Router();
 
-router.post('/getuserbalance', auth, controller.getUserBalance);
+router.get('/getuserbalance', auth, controller.getUserBalance);
 router.patch('/updateusertotalbalance', auth, controller.updateUserTotalBalance);
 
 module.exports = router;

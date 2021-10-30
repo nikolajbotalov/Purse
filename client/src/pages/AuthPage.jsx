@@ -1,12 +1,13 @@
 import React from 'react';
 
+import { authAPI } from '../api';
 import { useHttp } from '../hooks/http.hook';
 import { AuthContext } from '../context/AuthContext';
 import { BalanceInput, Button, Error, Header } from '../components';
 
 const AuthPage = () => {
   const auth = React.useContext(AuthContext);
-  const { loading, error, request } = useHttp();
+  const { loading, error } = useHttp();
   const [errorMessage, setErrorMessage] = React.useState('');
   const [authData, setAuthData] = React.useState({
     email: '',
@@ -21,20 +22,14 @@ const AuthPage = () => {
   };
 
   const registerHandler = async () => {
-    try {
-      await request('/api/auth/register', 'POST', { ...authData });
-    } catch ({ message }) {
-      setErrorMessage(message);
-    }
+    await authAPI.signUp({ ...authData }).catch(({ message }) => setErrorMessage(message));
   };
 
   const loginHandler = async () => {
-    try {
-      const data = await request('/api/auth/login', 'POST', { ...authData });
-      auth.login(data.token, data.userId);
-    } catch ({ message }) {
-      setErrorMessage(message);
-    }
+    await authAPI
+      .signIn({ ...authData })
+      .then(({ data }) => auth.login(data.token, data.userId))
+      .catch(({ message }) => setErrorMessage(message));
   };
 
   return (

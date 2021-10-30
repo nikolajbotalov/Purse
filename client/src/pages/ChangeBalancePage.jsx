@@ -1,14 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useHttp } from '../hooks/http.hook';
+import { balanceItemsAPI, sourceBalanceAPI, userAPI } from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { BalanceBlock, BalanceInput, Error, Header } from '../components';
 
 const ChangeBalancePage = ({ location }) => {
   const history = useHistory();
   const { token } = React.useContext(AuthContext);
-  const { request } = useHttp();
   const { balance, link, id } = location.state;
   const [messageError, setMessageError] = React.useState('');
   const [paidData, setPaidData] = React.useState({
@@ -22,47 +21,28 @@ const ChangeBalancePage = ({ location }) => {
   };
 
   const changeBalanceItem = async () => {
-    try {
-      const { paidItemName, price } = paidData;
-
-      await request(
-        '/api/balanceitem/create',
-        'POST',
-        { paidItemName, price, id },
-        { Authorization: `Bearer ${token}` },
-      );
-    } catch ({ message }) {
-      setMessageError(message);
-    }
+    const { paidItemName, price } = paidData;
+    await balanceItemsAPI
+      .create({ id, link, paidItemName, price, token: { Authorization: `Bearer ${token}` } })
+      .catch(({ message }) => setMessageError(message));
   };
 
   const updateUserTotalBalance = async () => {
-    try {
-      await request(
-        '/api/user/updateusertotalbalance',
-        'PATCH',
-        { balance: paidData.price, link: link },
-        { Authorization: `Bearer ${token}` },
-      );
-    } catch ({ message }) {
-      console.log(message);
-    }
+    await userAPI
+      .updateTotalBalance({
+        balance: paidData.price,
+        link,
+        token: { Authorization: `Bearer ${token}` },
+      })
+      .catch();
   };
 
-  const updateItemBalance = async () => {
-    try {
-      await request('/api/sourcebalance/updateitembalance', 'PATCH', {
-        id: id,
-        link: link,
-        price: paidData.price,
-      });
-    } catch ({ message }) {
-      console.log(message);
-    }
+  const updateBalanceItem = async () => {
+    await sourceBalanceAPI.updateBalanceItem({ id, link, price: paidData.price }).catch();
   };
 
   const changeUserData = async () => {
-    await updateItemBalance();
+    await updateBalanceItem();
     await changeBalanceItem();
     await updateUserTotalBalance();
     history.push('/');

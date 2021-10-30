@@ -1,8 +1,8 @@
 import { createStore, compose, combineReducers } from 'redux';
-import balanceReducer from './reducers/balanceReducer';
+import budgetReducer from './reducers/budgetReducer';
 
 const reducers = combineReducers({
-  balanceReducer,
+  budgetReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

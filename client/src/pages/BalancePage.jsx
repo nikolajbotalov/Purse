@@ -1,19 +1,18 @@
 import React from 'react';
 
-import { useHttp } from '../hooks/http.hook';
+import { balanceItemsAPI } from '../api';
 import { Header, BalanceBlock, BalanceItem } from '../components';
 
 const BalancePage = ({ location }) => {
-  const [paidItems, setPaidItems] = React.useState(null);
-  const { request } = useHttp();
   const { id, balanceName, balance } = location.state;
+  const [paidItems, setPaidItems] = React.useState(null);
 
   const fetchPaidItems = React.useCallback(async () => {
-    try {
-      const data = await request('/api/balanceitem/getpaiditems', 'POST', { id });
-      setPaidItems(data);
-    } catch (e) {}
-  }, [id, request]);
+    await balanceItemsAPI
+      .getBalancetems(id)
+      .then(({ data }) => setPaidItems(data))
+      .catch();
+  }, [id]);
 
   React.useEffect(() => {
     fetchPaidItems();

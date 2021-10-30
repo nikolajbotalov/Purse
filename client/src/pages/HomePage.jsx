@@ -1,35 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { sourceBalanceAPI, userAPI } from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import { BalanceBlock, BalanceItem, HomeHeader, Preloader } from '../components';
 
 const Home = () => {
   const { token } = React.useContext(AuthContext);
-  const { loading, request } = useHttp();
+  const { loading } = useHttp();
   const [sourceBalance, setSourceBalance] = React.useState(null);
   const [userBalance, setUserBalance] = React.useState(0);
 
   const getSourceBalance = React.useCallback(async () => {
-    try {
-      const data = await request('/api/sourcebalance/getsourceofbalance', 'GET', null, {
-        Authorization: `Bearer ${token}`,
-      });
-      setSourceBalance(data);
-    } catch (e) {}
-  }, [token, request]);
+    await sourceBalanceAPI
+      .getAll({ Authorization: `Bearer ${token}` })
+      .then(({ data }) => setSourceBalance(data))
+      .catch();
+  }, [token]);
 
   const getUserBalance = React.useCallback(async () => {
-    try {
-      const balance = await request('/api/user/getuserbalance', 'POST', null, {
-        Authorization: `Bearer ${token}`,
-      });
-      setUserBalance(balance);
-    } catch ({ message }) {
-      console.log(message);
-    }
-  }, [token, request]);
+    await userAPI
+      .getTotalBalance({ Authorization: `Bearer ${token}` })
+      .then(({ data }) => setUserBalance(data))
+      .catch();
+  }, [token]);
 
   React.useEffect(() => {
     getSourceBalance();

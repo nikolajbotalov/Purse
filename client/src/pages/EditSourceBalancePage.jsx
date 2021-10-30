@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { sourceBalanceAPI, userAPI } from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import { BalanceInput, Button, Description, Error, Header } from '../components';
@@ -21,37 +22,25 @@ const EditSourceBalancePage = ({ location }) => {
   };
 
   const renameSourceBalanceHandler = async () => {
-    try {
-      await request('/api/sourcebalance/renamesourceofbalance', 'PATCH', {
-        _id: id,
-        balanceName: newSourceBalanceName.balanceName,
-      });
-    } catch ({ message }) {
-      setMessageError(message);
-    }
+    await sourceBalanceAPI
+      .rename({ _id: id, balanceName: newSourceBalanceName.balanceName })
+      .catch(({ message }) => setMessageError(message));
+    history.push('/');
   };
 
   const removeSourceBalanceHandler = async () => {
-    try {
-      await request('/api/sourcebalance/removesourceofbalance', 'DELETE', {
-        _id: id,
-      });
-      history.push('/');
-    } catch (e) {}
+    await sourceBalanceAPI.removeSourceOfBalance({ id }).catch();
+    history.push('/');
   };
 
   const updateUserTotalBalance = async () => {
-    try {
-      await request(
-        '/api/user/updateusertotalbalance',
-        'PATCH',
-        {
-          balance,
-          changeSign: 'reduce',
-        },
-        { Authorization: `Bearer ${token}` },
-      );
-    } catch (e) {}
+    await userAPI
+      .updateTotalBalance({
+        balance,
+        changeSign: 'reduce',
+        token: { Authorization: `Bearer ${token}` },
+      })
+      .catch();
   };
 
   const removeHandler = async () => {
