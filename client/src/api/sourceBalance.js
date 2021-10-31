@@ -4,10 +4,10 @@ const sourceBalanceAPI = {
   getAll(token) {
     return instance.get('sourcebalance/getsourceofbalance', { headers: token });
   },
-  create({ balanceName, balance, token }) {
+  create(balance, balanceName, token) {
     return instance.post('sourcebalance/create', { balanceName, balance }, { headers: token });
   },
-  rename({ _id, balanceName }) {
+  rename(_id, balanceName) {
     return instance.patch('sourcebalance/renamesourceofbalance', { _id, balanceName });
   },
   updateBalanceItem({ id, link, price }) {

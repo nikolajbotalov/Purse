@@ -1,35 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { sourceBalanceAPI, userAPI } from '../api';
+import { getUserSources, getUserTotalBalance } from '../redux/actions/sources';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import { BalanceBlock, BalanceItem, HomeHeader, Preloader } from '../components';
 
 const Home = () => {
+  const dispatch = useDispatch();
   const { token } = React.useContext(AuthContext);
   const { loading } = useHttp();
-  const [sourceBalance, setSourceBalance] = React.useState(null);
-  const [userBalance, setUserBalance] = React.useState(0);
-
-  const getSourceBalance = React.useCallback(async () => {
-    await sourceBalanceAPI
-      .getAll({ Authorization: `Bearer ${token}` })
-      .then(({ data }) => setSourceBalance(data))
-      .catch();
-  }, [token]);
-
-  const getUserBalance = React.useCallback(async () => {
-    await userAPI
-      .getTotalBalance({ Authorization: `Bearer ${token}` })
-      .then(({ data }) => setUserBalance(data))
-      .catch();
-  }, [token]);
+  const sourceBalance = useSelector(({ budgetReducer }) => budgetReducer.sourceOfBalance);
+  const totalBalance = useSelector(({ budgetReducer }) => budgetReducer.totalBalance);
 
   React.useEffect(() => {
-    getSourceBalance();
-    getUserBalance();
-  }, [getSourceBalance, getUserBalance]);
+    dispatch(getUserSources({ Authorization: `Bearer ${token}` }));
+    dispatch(getUserTotalBalance({ Authorization: `Bearer ${token}` }));
+  }, [dispatch, token]);
 
   if (loading) {
     return <Preloader />;
@@ -38,7 +26,7 @@ const Home = () => {
   return (
     <div>
       <HomeHeader />
-      <BalanceBlock classname="home" balance={userBalance} />
+      <BalanceBlock classname="home" balance={totalBalance} />
       {!loading &&
         sourceBalance &&
         sourceBalance.map((source) => {

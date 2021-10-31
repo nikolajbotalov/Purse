@@ -1,14 +1,18 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import { sourceBalanceAPI, userAPI } from '../api';
+import {
+  removeSourceOfBalance,
+  renameSourceOfBalance,
+  updateTotalBalance,
+} from '../redux/actions/sources';
 import { AuthContext } from '../context/AuthContext';
-import { useHttp } from '../hooks/http.hook';
 import { BalanceInput, Button, Description, Error, Header } from '../components';
 
 const EditSourceBalancePage = ({ location }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
-  const { request } = useHttp();
   const { id, balance, balanceName } = location.state;
   const { token } = React.useContext(AuthContext);
   const [messageError, setMessageError] = React.useState('');
@@ -22,30 +26,21 @@ const EditSourceBalancePage = ({ location }) => {
   };
 
   const renameSourceBalanceHandler = async () => {
-    await sourceBalanceAPI
-      .rename({ _id: id, balanceName: newSourceBalanceName.balanceName })
-      .catch(({ message }) => setMessageError(message));
+    const { balanceName } = newSourceBalanceName;
+    await dispatch(renameSourceOfBalance({ _id: id, balanceName }));
     history.push('/');
-  };
-
-  const removeSourceBalanceHandler = async () => {
-    await sourceBalanceAPI.removeSourceOfBalance({ id }).catch();
-    history.push('/');
-  };
-
-  const updateUserTotalBalance = async () => {
-    await userAPI
-      .updateTotalBalance({
-        balance,
-        changeSign: 'reduce',
-        token: { Authorization: `Bearer ${token}` },
-      })
-      .catch();
   };
 
   const removeHandler = async () => {
-    await updateUserTotalBalance();
-    await removeSourceBalanceHandler();
+    await dispatch(
+      updateTotalBalance({
+        balance,
+        changeSign: 'reduce',
+        token: { Authorization: `Bearer ${token}` },
+      }),
+    );
+    await dispatch(removeSourceOfBalance({ id }));
+    history.push('/');
   };
 
   return (

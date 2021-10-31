@@ -1,12 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import { sourceBalanceAPI, userAPI } from '../api';
+// import { userAPI } from '../api';
+import { createSourceOfBalance, updateTotalBalance } from '../redux/actions/sources';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import { BalanceInput, Description, Error, Header, Preloader } from '../components';
 
 const NewSourceBalancePage = () => {
+  const dispatch = useDispatch();
   const { loading } = useHttp();
   const { token } = React.useContext(AuthContext);
   const history = useHistory();
@@ -21,35 +24,18 @@ const NewSourceBalancePage = () => {
     setBalanceData({ ...balanceData, [e.target.name]: e.target.value });
   };
 
-  const createSourceBalance = async () => {
-    const { balanceName, balance } = balanceData;
-    try {
-      await sourceBalanceAPI.create({
-        balanceName,
-        balance,
-        token: { Authorization: `Bearer ${token}` },
-      });
-    } catch ({ message }) {
-      setMessageError(message);
-    }
-  };
-
-  const updateUserTotalBalance = async () => {
-    const { balance } = balanceData;
-    try {
-      await userAPI.updateTotalBalance({
+  const saveBalanceItem = async () => {
+    const { balance, balanceName } = balanceData;
+    await dispatch(
+      createSourceOfBalance({ balance, balanceName, token: { Authorization: `Bearer ${token}` } }),
+    );
+    await dispatch(
+      updateTotalBalance({
         balance,
         changeSign: 'increase',
         token: { Authorization: `Bearer ${token}` },
-      });
-    } catch ({ message }) {
-      console.log(message);
-    }
-  };
-
-  const saveBalanceItem = async () => {
-    await createSourceBalance();
-    await updateUserTotalBalance();
+      }),
+    );
 
     history.push('/');
   };
