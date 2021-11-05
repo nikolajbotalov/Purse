@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { createSourceOfBalance, updateTotalBalance } from '../redux/actions/sources';
 import { AuthContext } from '../context/AuthContext';
@@ -12,11 +12,16 @@ const NewSourceBalancePage = () => {
   const { loading } = useHttp();
   const { token } = React.useContext(AuthContext);
   const history = useHistory();
+  const error = useSelector(({budgetReducer}) => budgetReducer.errorText)
   const [messageError, setMessageError] = React.useState('');
   const [balanceData, setBalanceData] = React.useState({
     balanceName: '',
     balance: '',
   });
+
+  React.useEffect(() => {
+    setMessageError(error)
+  }, [error])
 
   const getBalanceData = (e) => {
     setMessageError('');
@@ -35,12 +40,19 @@ const NewSourceBalancePage = () => {
         token: { Authorization: `Bearer ${token}` },
       }),
     );
-    history.push('/');
+
+    if (balance !== '' && balanceName !== '') {
+      history.push('/');
+    } else {
+      return 
+    }
   };
 
   if (loading) {
     return <Preloader />;
   }
+
+
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import { balanceItemsAPI, sourceBalanceAPI } from "../../api";
+import { someErrorMessage } from "./budgetAction";
 
 export const getAllItemsAction = (items) => ({
   type: "GET_SOURCE_ITEMS",
@@ -29,7 +30,9 @@ export const createSourceItem = ({ id, itemName, price, token, link }) => {
     await balanceItemsAPI
       .create(id, itemName, price, token, link)
       .then(({ data }) => dispatch(createBalanceItemAction(data)))
-      .catch();
+      .catch(({ response }) =>
+        dispatch(someErrorMessage(response.data.message))
+      );
   };
 };
 

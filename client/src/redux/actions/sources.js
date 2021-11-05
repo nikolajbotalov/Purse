@@ -1,4 +1,5 @@
 import { sourceBalanceAPI, userAPI } from '../../api';
+import { someErrorMessage } from './budgetAction';
 
 export const getAllSourcesAction = (sources) => ({
   type: 'GET_ALL_SOURCES',
@@ -53,7 +54,7 @@ export const createSourceOfBalance = ({ balance, balanceName, token }) => {
     await sourceBalanceAPI
       .create(balance, balanceName, token)
       .then(({ data }) => dispatch(createSourceAction(data)))
-      .catch();
+      .catch(({response}) => dispatch(someErrorMessage(response.data.message)));
   };
 };
 
@@ -71,7 +72,7 @@ export const renameSourceOfBalance = ({ _id, balanceName }) => {
     await sourceBalanceAPI
       .rename(_id, balanceName)
       .then(({ data }) => dispatch(renameSourceAction(data)))
-      .catch();
+      .catch(({response}) => dispatch(someErrorMessage(response.data.message)));
   };
 };
 

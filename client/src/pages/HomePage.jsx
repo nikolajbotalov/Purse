@@ -16,7 +16,7 @@ const Home = () => {
 
   React.useEffect(() => {
     dispatch(getUserSources({ Authorization: `Bearer ${token}` }));
-    dispatch(getUserTotalBalance({ Authorization: `Bearer ${token}` }));
+    dispatch(getUserTotalBalance({ Authorization: `Bearer ${token}` }));    
   }, [dispatch, token]);
 
   if (loading) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   removeSourceOfBalance,
@@ -13,6 +13,7 @@ import { BalanceInput, Button, Description, Error, Header } from '../components'
 const EditSourceBalancePage = ({ location }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const error = useSelector(({budgetReducer}) => budgetReducer.errorText);
   const { id, balance, balanceName } = location.state;
   const { token } = React.useContext(AuthContext);
   const [messageError, setMessageError] = React.useState('');
@@ -28,7 +29,12 @@ const EditSourceBalancePage = ({ location }) => {
   const renameSourceBalanceHandler = () => {
     const { balanceName } = newSourceBalanceName;
     dispatch(renameSourceOfBalance({ _id: id, balanceName }));
-    history.push('/');
+
+    if (balanceName !== '') {
+      history.push('/');
+    } else {
+      return null
+    }
   };
 
   const removeHandler = () => {
@@ -42,6 +48,10 @@ const EditSourceBalancePage = ({ location }) => {
     dispatch(removeSourceOfBalance({ id }));
     history.push('/');
   };
+
+  React.useEffect(() => {
+    setMessageError(error)
+  }, [error])
 
   return (
     <div>
