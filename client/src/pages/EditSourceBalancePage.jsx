@@ -25,21 +25,21 @@ const EditSourceBalancePage = ({ location }) => {
     setNewSourceBalanceName({ ...newSourceBalanceName, [e.target.name]: e.target.value });
   };
 
-  const renameSourceBalanceHandler = async () => {
+  const renameSourceBalanceHandler = () => {
     const { balanceName } = newSourceBalanceName;
-    await dispatch(renameSourceOfBalance({ _id: id, balanceName }));
+    dispatch(renameSourceOfBalance({ _id: id, balanceName }));
     history.push('/');
   };
 
-  const removeHandler = async () => {
-    await dispatch(
+  const removeHandler = () => {
+    dispatch(
       updateTotalBalance({
         balance,
         changeSign: 'reduce',
         token: { Authorization: `Bearer ${token}` },
       }),
     );
-    await dispatch(removeSourceOfBalance({ id }));
+    dispatch(removeSourceOfBalance({ id }));
     history.push('/');
   };
 

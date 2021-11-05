@@ -58,7 +58,7 @@ module.exports.login = async (req, res) => {
 
     const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), { expiresIn: '1h' });
 
-    res.json({ token, userId: user.is });
+    res.json({ token, userId: user.id });
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }

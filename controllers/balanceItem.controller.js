@@ -12,8 +12,7 @@ module.exports.getPaidItems = async (req, res) => {
 
 module.exports.create = async (req, res) => {
   try {
-    const { id, link, paidItemName, price } = req.body;
-
+    const { id, link, itemName, price } = req.body;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -24,7 +23,7 @@ module.exports.create = async (req, res) => {
     }
 
     const paidItem = await BalanceItem({
-      paidItemName,
+      itemName,
       price,
       paidType: link,
       sourceBalance: id,
@@ -37,12 +36,13 @@ module.exports.create = async (req, res) => {
       }
     });
 
-    res.status(201).json({ message: 'Удачно' });
-  } catch (e) {
-    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+    res.status(201).json(paidItem);
+  } catch ({message}) {
+    res.status(500).json({ message: `Что-то пошло не так, попробуйте снова` });
   }
 };
 
+// написать на стороне фронта  
 module.exports.delete = async (req, res) => {
   try {
   } catch (e) {

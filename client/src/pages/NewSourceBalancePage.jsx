@@ -2,7 +2,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-// import { userAPI } from '../api';
 import { createSourceOfBalance, updateTotalBalance } from '../redux/actions/sources';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
@@ -24,19 +23,18 @@ const NewSourceBalancePage = () => {
     setBalanceData({ ...balanceData, [e.target.name]: e.target.value });
   };
 
-  const saveBalanceItem = async () => {
+  const saveBalanceItem = () => {
     const { balance, balanceName } = balanceData;
-    await dispatch(
+    dispatch(
       createSourceOfBalance({ balance, balanceName, token: { Authorization: `Bearer ${token}` } }),
     );
-    await dispatch(
+    dispatch(
       updateTotalBalance({
         balance,
         changeSign: 'increase',
         token: { Authorization: `Bearer ${token}` },
       }),
     );
-
     history.push('/');
   };
 

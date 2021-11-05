@@ -1,22 +1,17 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { balanceItemsAPI } from '../api';
+import { getSourceItems } from '../redux/actions/balanceItems';
 import { Header, BalanceBlock, BalanceItem } from '../components';
 
 const BalancePage = ({ location }) => {
+  const dispatch = useDispatch();
+  const balanceItem = useSelector(({ budgetReducer }) => budgetReducer.balanceItems);
   const { id, balanceName, balance } = location.state;
-  const [paidItems, setPaidItems] = React.useState(null);
-
-  const fetchPaidItems = React.useCallback(async () => {
-    await balanceItemsAPI
-      .getBalancetems(id)
-      .then(({ data }) => setPaidItems(data))
-      .catch();
-  }, [id]);
 
   React.useEffect(() => {
-    fetchPaidItems();
-  }, [fetchPaidItems]);
+    dispatch(getSourceItems(id))
+  }, [dispatch, id]);
 
   return (
     <div>
@@ -28,9 +23,9 @@ const BalancePage = ({ location }) => {
         balance={balance}
       />
       <BalanceBlock id={id} hideBtns={true} balance={balance} balanceName={balanceName} />
-      {paidItems &&
-        paidItems.map((item) => {
-          return <BalanceItem key={item._id} name={item.paidItemName} balance={item.price} />;
+      {balanceItem &&
+        balanceItem.map((item) => {
+          return <BalanceItem key={item._id} name={item.itemName} balance={item.price} type={item.paidType} />;
         })}
     </div>
   );

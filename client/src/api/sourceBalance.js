@@ -10,7 +10,7 @@ const sourceBalanceAPI = {
   rename(_id, balanceName) {
     return instance.patch('sourcebalance/renamesourceofbalance', { _id, balanceName });
   },
-  updateBalanceItem({ id, link, price }) {
+  updateBalanceItem( id, link, price) {
     return instance.patch('sourcebalance/updateitembalance', { id, link, price });
   },
   removeSourceOfBalance(id) {

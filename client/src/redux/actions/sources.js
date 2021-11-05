@@ -57,10 +57,10 @@ export const createSourceOfBalance = ({ balance, balanceName, token }) => {
   };
 };
 
-export const updateTotalBalance = ({ balance, changeSign, token }) => {
+export const updateTotalBalance = ({ balance, changeSign = null, link = null, token }) => {
   return async (dispatch) => {
     await userAPI
-      .updateTotalBalance(balance, changeSign, null, token)
+      .updateTotalBalance(balance, changeSign, link, token)
       .then(({ data }) => dispatch(updateUserBalanceAction(data)))
       .catch();
   };

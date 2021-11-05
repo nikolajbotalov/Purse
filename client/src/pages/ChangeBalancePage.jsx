@@ -1,50 +1,33 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import { balanceItemsAPI, sourceBalanceAPI, userAPI } from '../api';
+import { createSourceItem, updateItemBalance } from '../redux/actions/balanceItems';
+import { updateTotalBalance } from '../redux/actions/sources';
 import { AuthContext } from '../context/AuthContext';
 import { BalanceBlock, BalanceInput, Error, Header } from '../components';
 
 const ChangeBalancePage = ({ location }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { token } = React.useContext(AuthContext);
   const { balance, link, id } = location.state;
   const [messageError, setMessageError] = React.useState('');
-  const [paidData, setPaidData] = React.useState({
-    paidItemName: '',
+  const [sourceItem, setSourceItem] = React.useState({
+    itemName: '',
     price: '',
   });
 
   const getChangeData = (e) => {
     setMessageError('');
-    setPaidData({ ...paidData, [e.target.name]: e.target.value });
+    setSourceItem({ ...sourceItem, [e.target.name]: e.target.value });
   };
 
-  const changeBalanceItem = async () => {
-    const { paidItemName, price } = paidData;
-    await balanceItemsAPI
-      .create({ id, link, paidItemName, price, token: { Authorization: `Bearer ${token}` } })
-      .catch(({ message }) => setMessageError(message));
-  };
-
-  const updateUserTotalBalance = async () => {
-    await userAPI
-      .updateTotalBalance({
-        balance: paidData.price,
-        link,
-        token: { Authorization: `Bearer ${token}` },
-      })
-      .catch();
-  };
-
-  const updateBalanceItem = async () => {
-    await sourceBalanceAPI.updateBalanceItem({ id, link, price: paidData.price }).catch();
-  };
-
-  const changeUserData = async () => {
-    await updateBalanceItem();
-    await changeBalanceItem();
-    await updateUserTotalBalance();
+  const changeUserData = () => {
+    const { itemName, price } = sourceItem;
+    dispatch(createSourceItem({id, itemName, price, link, token: { Authorization: `Bearer ${token}` } }));
+    dispatch(updateItemBalance({id, link, price}));
+    dispatch(updateTotalBalance({balance: price, changeSign: null, link, token: { Authorization: `Bearer ${token}` }}))
     history.push('/');
   };
 
@@ -59,7 +42,7 @@ const ChangeBalancePage = ({ location }) => {
       <BalanceBlock classname={link} balance={balance} />
       <div className="description">
         <BalanceInput
-          name="paidItemName"
+          name="itemName"
           placeholder={`Введите описание ${link === 'cost' ? 'расхода' : 'дохода'}`}
           onChange={getChangeData}
         />

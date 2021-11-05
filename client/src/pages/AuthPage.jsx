@@ -1,11 +1,14 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
+import { signInUser, signUpUser } from '../redux/actions/auth';
 import { authAPI } from '../api';
 import { useHttp } from '../hooks/http.hook';
 import { AuthContext } from '../context/AuthContext';
 import { BalanceInput, Button, Error, Header } from '../components';
 
 const AuthPage = () => {
+  const dispatch = useDispatch();
   const auth = React.useContext(AuthContext);
   const { loading, error } = useHttp();
   const [errorMessage, setErrorMessage] = React.useState('');
@@ -22,14 +25,12 @@ const AuthPage = () => {
   };
 
   const registerHandler = async () => {
-    await authAPI.signUp({ ...authData }).catch(({ message }) => setErrorMessage(message));
+    await dispatch(signUpUser({...authData}));
   };
 
   const loginHandler = async () => {
-    await authAPI
-      .signIn({ ...authData })
-      .then(({ data }) => auth.login(data.token, data.userId))
-      .catch(({ message }) => setErrorMessage(message));
+    const {payload} = await dispatch(signInUser({...authData}))
+    auth.login(payload.token, payload.userId)
   };
 
   return (

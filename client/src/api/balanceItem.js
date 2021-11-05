@@ -1,10 +1,11 @@
 import { instance } from './instance';
 
 const balanceItemsAPI = {
-  create({ id, link, paidItemName, price, token }) {
+  create(id, itemName, price, token, link) {
+   
     return instance.post(
       'balanceitem/create',
-      { id, link, paidItemName, price, token },
+      { id, itemName, price, link },
       { headers: token },
     );
   },

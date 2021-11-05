@@ -26,7 +26,7 @@ exports.updateSourceOfBalance = [
 ];
 
 exports.newBalanceItem = [
-  check('paidItemName', 'Описание изменения баланса не может быть пустым').exists({
+  check('itemName', 'Описание изменения баланса не может быть пустым').exists({
     checkFalse: true,
     checkNull: true,
   }),
