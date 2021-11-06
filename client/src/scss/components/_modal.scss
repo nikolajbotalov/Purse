@@ -1,6 +1,6 @@
 @import "../variables";
 
-.modalContainer {
+.modal-container {
   position: fixed;
   left: 0;
   top: 0;
@@ -26,7 +26,7 @@
       color: $balance-color-txt;
     }
 
-    .modalControl {
+    .modal-control {
       display: flex;
       align-items: center;
       justify-content: space-around;

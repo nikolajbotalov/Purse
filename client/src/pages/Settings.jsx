@@ -1,41 +1,35 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useHistory } from "react-router";
 
+import { AuthContext } from "../context/AuthContext";
 import { Button, Confirm, Header } from "../components";
 
 const Settings = () => {
+  const history = useHistory()
   const auth = React.useContext(AuthContext);
   const [showModal, setShowModal] = React.useState(false);
 
   const showModalHandler = () => {
-    console.log(showModal)
     setShowModal(true);
-    console.log(showModal)
-  };
+  }
 
   const logoutHandler = () => {
     auth.logout();
+    history.push('/authpage');
   };
 
   return (
     <div>
       <Header backBtnText="назад" />
       <div className="settings-container">
-        <Link to="/authpage">
           <Button
             btnText="Выход из приложения"
             classname="remove"
             onClick={showModalHandler}
           />
-        </Link>
       </div>
       {showModal ? (
-        <Confirm
-          btnConfirm={logoutHandler}
-          btnCancel={() => setShowModal(false)}
-          text="выйти из приложения"
-        />
+        <Confirm btnConfirm={logoutHandler} text="выйти из приложения" />
       ) : null}
     </div>
   );
