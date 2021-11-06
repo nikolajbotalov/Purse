@@ -1,57 +1,75 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   removeSourceOfBalance,
   renameSourceOfBalance,
   updateTotalBalance,
-} from '../redux/actions/sources';
-import { AuthContext } from '../context/AuthContext';
-import { BalanceInput, Button, Description, Error, Header } from '../components';
+} from "../redux/actions/sources";
+import { removeAllItems } from "../redux/actions/balanceItems";
+import { AuthContext } from "../context/AuthContext";
+import {
+  BalanceInput,
+  Button,
+  Confirm,
+  Description,
+  Error,
+  Header,
+} from "../components";
 
 const EditSourceBalancePage = ({ location }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const error = useSelector(({budgetReducer}) => budgetReducer.errorText);
+  const error = useSelector(({ budgetReducer }) => budgetReducer.errorText);
   const { id, balance, balanceName } = location.state;
   const { token } = React.useContext(AuthContext);
-  const [messageError, setMessageError] = React.useState('');
+  const [messageError, setMessageError] = React.useState("");
+  const [showModal, setShowModal] = React.useState(false);
   const [newSourceBalanceName, setNewSourceBalanceName] = React.useState({
-    balanceName: '',
+    balanceName: "",
   });
 
   const getNewSourceBalanceName = (e) => {
-    setMessageError('');
-    setNewSourceBalanceName({ ...newSourceBalanceName, [e.target.name]: e.target.value });
+    setMessageError("");
+    setNewSourceBalanceName({
+      ...newSourceBalanceName,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const showConfirmModalHandler = () => {
+    setShowModal(true);
   };
 
   const renameSourceBalanceHandler = () => {
     const { balanceName } = newSourceBalanceName;
     dispatch(renameSourceOfBalance({ _id: id, balanceName }));
 
-    if (balanceName !== '') {
-      history.push('/');
+    setShowModal(false);
+    if (balanceName !== "") {
+      history.push("/");
     } else {
-      return null
+      return null;
     }
   };
 
-  const removeHandler = () => {
-    dispatch(
+  const removeHandler = async () => {
+    await dispatch(removeAllItems({ id }));
+    await dispatch(
       updateTotalBalance({
         balance,
-        changeSign: 'reduce',
+        changeSign: "reduce",
         token: { Authorization: `Bearer ${token}` },
-      }),
+      })
     );
-    dispatch(removeSourceOfBalance({ id }));
-    history.push('/');
+    await dispatch(removeSourceOfBalance({ id }));
+    history.push("/");
   };
 
   React.useEffect(() => {
-    setMessageError(error)
-  }, [error])
+    setMessageError(error);
+  }, [error]);
 
   return (
     <div>
@@ -73,8 +91,19 @@ const EditSourceBalancePage = ({ location }) => {
       />
       <Error errorText={messageError} />
       <div className="list-controller">
-        <Button btnText="удалить список" onClick={removeHandler} classname="remove" />
+        <Button
+          btnText="удалить список"
+          onClick={showConfirmModalHandler}
+          classname="remove"
+        />
       </div>
+      {showModal ? (
+        <Confirm
+          btnConfirm={removeHandler}
+          btnCancel={() => setShowModal(false)}
+          text="удалить источник баланса"
+        />
+      ) : null}
     </div>
   );
 };

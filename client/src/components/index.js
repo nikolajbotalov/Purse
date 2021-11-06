@@ -2,6 +2,7 @@ export { default as BalanceBlock } from './BalanceBlock';
 export { default as BalanceInput } from './BalanceInput';
 export { default as BalanceItem } from './BalanceItem';
 export { default as Button } from './Button';
+export { default as Confirm } from './Confirm';
 export { default as Description } from './Description';
 export { default as Error } from './Error';
 export { default as Header } from './Header';

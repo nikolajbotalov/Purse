@@ -1,0 +1,62 @@
+@import "../variables";
+
+.modalContainer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 415px;
+  min-height: 712px;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal {
+    margin: 0 40px;
+    padding: 20px 10px;
+    border-radius: 5px;
+    background: transparent;
+    border: 1px solid $remove-color;
+    text-align: center;
+
+    span {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: $balance-color-txt;
+    }
+
+    .modalControl {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      button {
+        padding: 5px 20px;
+        background-color: transparent;
+        border: 2px solid $balance-block-border;
+        border-radius: 5px;
+
+        &.confirm {
+          color: $remove-color;
+
+          &:hover {
+            background-color: $remove-color;
+            color: $balance-color-txt;
+            border: 2px solid $remove-color;
+          }
+        }
+
+        &.cancel {
+          color: $balance-bg;
+
+          &:hover {
+            background-color: $balance-bg;
+            color: $balance-color-txt;
+            border: 2px solid $balance-bg;
+          }
+        }
+      }
+    }
+  }
+}
