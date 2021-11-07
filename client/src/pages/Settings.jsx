@@ -29,7 +29,7 @@ const Settings = () => {
           />
       </div>
       {showModal ? (
-        <Confirm btnConfirm={logoutHandler} text="выйти из приложения" />
+        <Confirm btnConfirm={logoutHandler} btnCancel={() => setShowModal(false)} text="выйти из приложения" />
       ) : null}
     </div>
   );

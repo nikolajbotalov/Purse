@@ -4,6 +4,7 @@ import {
   AuthPage,
   BalancePage,
   ChangeBalancePage,
+  EditItemBalancePage,
   EditSourceBalancePage,
   HomePage,
   NewSourceBalancePage,
@@ -19,6 +20,7 @@ const UseRoutes = (isAuthenticated) => {
         <Route path="/editsourcebalancepage" component={EditSourceBalancePage} exact />
         <Route path="/balancepage" component={BalancePage} />
         <Route path="/changebalancepage" component={ChangeBalancePage} />
+        <Route path='/edititembalancepage' component={EditItemBalancePage} />
         <Route path="/settings" component={Settings} />
         <Redirect to="/" />
       </Switch>

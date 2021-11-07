@@ -11,6 +11,11 @@ export const createBalanceItemAction = (payload) => ({
   payload,
 });
 
+const editItemAction = (payload) => ({
+  type: "EDIT_ITEM",
+  payload,
+});
+
 export const updateItemBalanceAction = (payload) => ({
   type: "UPDATE_ITEM_BALANCE",
   payload,
@@ -41,6 +46,17 @@ export const createSourceItem = ({ id, itemName, price, token, link }) => {
   };
 };
 
+export const editItem = ({ _id, itemName, price }) => {
+  return async (dispatch) => {
+    await balanceItemsAPI
+      .editItem(_id, itemName, price)
+      .then(({ data }) => editItemAction(data))
+      .catch(({ response }) =>
+        dispatch(someErrorMessage(response.data.message))
+      );
+  };
+};
+
 export const updateItemBalance = ({ id, link, price }) => {
   return async (dispatch) => {
     await sourceBalanceAPI
@@ -50,7 +66,7 @@ export const updateItemBalance = ({ id, link, price }) => {
   };
 };
 
-export const removeAllItems = ({id}) => {
+export const removeAllItems = ({ id }) => {
   return async (dispatch) => {
     await balanceItemsAPI
       .removeAll(id)
@@ -58,4 +74,3 @@ export const removeAllItems = ({id}) => {
       .catch();
   };
 };
-
