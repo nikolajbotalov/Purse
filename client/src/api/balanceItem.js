@@ -12,10 +12,13 @@ const balanceItemsAPI = {
     return instance.post("balanceitem/getbalanceitems", { id });
   },
   editItem(_id, itemName, price) {
-    return instance.post('balanceitem/edititem', {_id, itemName, price})
+    return instance.post("balanceitem/edititem", { _id, itemName, price });
+  },
+  removeItem(id) {
+    return instance.delete("balanceitem/removeitem", { data: { id } });
   },
   removeAll(id) {
-    return instance.delete("balanceItem/removeallitems", { data: { id } });
+    return instance.delete("balanceitem/removeallitems", { data: { id } });
   },
 };
 

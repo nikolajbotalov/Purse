@@ -5,16 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   // removeSourceOfBalance,
   // renameSourceOfBalance,
-  updateTotalBalance,
+  // updateTotalBalance,
 } from "../redux/actions/sources";
-import { editItem } from "../redux/actions/balanceItems";
-import { AuthContext } from "../context/AuthContext";
+import { removeItem } from "../redux/actions/balanceItems";
+// import { AuthContext } from "../context/AuthContext";
 import {
-  BalanceInput,
+  // BalanceInput,
   Button,
   // Confirm,
-  Description,
-  Error,
+  // Description,
+  // Error,
   Header,
 } from "../components";
 
@@ -23,35 +23,43 @@ const EditItemBalancePage = ({ location }) => {
   const history = useHistory();
   const error = useSelector(({ budgetReducer }) => budgetReducer.errorText);
   const { id, itemBalance, itemName, type, source } = location.state;
-    const { token } = React.useContext(AuthContext);
-  const [messageError, setMessageError] = React.useState("");
+  // const { token } = React.useContext(AuthContext);
+  // const [messageError, setMessageError] = React.useState("");
   //   const [showModal, setShowModal] = React.useState(false);
-  const [editedItem, setEditedItem] = React.useState({
-    itemName: "",
-    price: "",
-  });
+  // const [editedItem, setEditedItem] = React.useState({
+  //   itemName: "",
+  //   price: "",
+  // });
 
-  const getEditedItem = (e) => {
-    setMessageError("");
-    setEditedItem({
-      ...editedItem,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // const getEditedItem = (e) => {
+  //   setMessageError("");
+  //   setEditedItem({
+  //     ...editedItem,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
   // const showConfirmModalHandler = () => {
   //   setShowModal(true);
   // };
 
-  const editItemHandler = () => {
-    const { itemName, price } = editedItem;
-    dispatch(editItem({ _id: id, itemName, price }));
-    // dispatch(updateTotalBalance({ id: source, link: type, price}));
+  // const editItemHandler = () => {
+  //   const { itemName, price } = editedItem;
+  //   dispatch(editItem({ _id: id, itemName, price }));
+  //   dispatch(updateItemBalance({ id: source, link: type, price }));
+  //   // dispatch(
+  //   //   updateTotalBalance({
+  //   //     balance: price,
+  //   //     changeSign: null,
+  //   //     link: type,
+  //   //     token: { Authorization: `Bearer ${token}` },
+  //   //   })
+  //   // );
 
-    if (itemName !== "" && price !== "") {
-      history.push('/'); 
-    }
-  };
+  //   if (itemName !== "" && price !== "") {
+  //     history.push("/");
+  //   }
+  // };
 
   //   const removeHandler = async () => {
   //     await dispatch(removeAllItems({ id }));
@@ -66,43 +74,20 @@ const EditItemBalancePage = ({ location }) => {
   //     history.push("/");
   //   };
 
-  React.useEffect(() => {
-    setMessageError(error);
-  }, [error]);
+  const removeHandler = async () => { 
+    await dispatch(removeItem(id));
+  }
 
   return (
     <div>
       <Header
         backBtnText="назад"
-        saveBtnText="сохранить"
-        prevPage="/"
-        saveHandle={editItemHandler}
+        prevPage="/"       
       />
-      <BalanceInput
-        placeholder={itemName}
-        name="itemName"
-        classname="balance-input"
-        onChange={getEditedItem}
-      />
-      <Description
-        text="Измените название предмета для источника счета"
-        classname="balance-input__description"
-      />
-      <BalanceInput
-        placeholder={itemBalance}
-        name="price"
-        classname="balance-input"
-        onChange={getEditedItem}
-      />
-      <Description
-        text="Измените сумму для источника счета"
-        classname="balance-input__description"
-      />
-      <Error errorText={messageError} />
-      <div className="list-controller">
+      <div className="list-controller edit-page">
         <Button
           btnText="удалить предмет"
-          //   onClick={showConfirmModalHandler}
+            onClick={removeHandler}
           classname="remove"
         />
       </div>

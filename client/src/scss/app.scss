@@ -123,6 +123,10 @@ input {
 .list-controller {
   display: flex;
   justify-content: center;
+
+  &.edit-page {
+    margin-top: 20px;
+  }
 }
 
 .settings-container {

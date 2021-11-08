@@ -60,9 +60,19 @@ module.exports.editItem = async (req, res) => {
 
     res.status(201).json({message: `Удачно`})
   } catch ({ message }) {
-    res.status(500).json({ message: `Что-то пошло не так, попробуйте снова ${message}` });
+    res.status(500).json({ message: `Что-то пошло не так, попробуйте снова` });
   }
 };
+
+// module.exports.updateCurrentItem = async (req, res) => {
+//   try {
+//     const itemBalance = await BalanceItem.findById({ _id: id}).updateOne({ price: req.body.price }) 
+
+//     res.status(201).json({ message: `success`});
+//   } catch (e) {
+//     res.status(500).json({ message: `Что-то пошло не так, попробуйте снова `})
+//   }
+// }
 
 module.exports.removeAll = async (req, res) => {
   try {
@@ -76,8 +86,13 @@ module.exports.removeAll = async (req, res) => {
 };
 
 // Добавить удаление предмета баланса на фронте
-module.exports.delete = async (req, res) => {
+module.exports.removeItem = async (req, res) => {
   try {
+    const { id } = req.body; 
+    console.log(id);
+    await BalanceItem.deleteOne({ _id: id });
+
+    res.status(201).json({ message: `success`});
   } catch (e) {
     res.status(500).json({ message: "Что-то пошло не так, попробуйте снова" });
   }

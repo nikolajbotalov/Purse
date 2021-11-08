@@ -6,7 +6,8 @@ const router = Router();
 
 router.post('/create', auth, validation.newBalanceItem, controller.create);
 router.post('/getbalanceitems', controller.getPaidItems);
-router.post('/edititem', validation.newBalanceItem, controller.editItem)
+router.post('/edititem', validation.newBalanceItem, controller.editItem);
+router.delete('/removeitem', controller.removeItem);
 router.delete('/removeallitems', controller.removeAll);
 
 module.exports = router;

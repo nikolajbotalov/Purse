@@ -21,6 +21,11 @@ export const updateItemBalanceAction = (payload) => ({
   payload,
 });
 
+const removeItemAction = (payload) => ({
+  type: "REMOVE_ITEM",
+  payload,
+});
+
 export const removeAllItemAction = (payload) => ({
   type: "REMOVE_ALL_ITEMS",
   payload,
@@ -62,6 +67,15 @@ export const updateItemBalance = ({ id, link, price }) => {
     await sourceBalanceAPI
       .updateBalanceItem(id, link, price)
       .then(({ data }) => dispatch(updateItemBalanceAction(data)))
+      .catch();
+  };
+};
+
+export const removeItem = (id) => {
+  return async (dispatch) => {
+    await balanceItemsAPI
+      .removeItem(id)
+      .then(({ data }) => dispatch(removeItemAction(data)))
       .catch();
   };
 };
